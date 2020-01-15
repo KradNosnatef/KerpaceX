@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <bool name="EnableTelnet">0</bool>
+    <int name="TelnetPort">5410</int>
+    <string name="TelnetIPAddrString">127.0.0.1</string>
+    <int name="TerminalFontDefaultSize">12</int>
+    <string name="TerminalFontName">Choose Font</string>
+    <double name="TerminalBrightness">0.69999998807907104</double>
+    <int name="TerminalDefaultWidth">50</int>
+    <int name="TerminalDefaultHeight">36</int>
+</config>

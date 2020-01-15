@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <bool name="DisplayTargetGUI">0</bool>
+    <bool name="DisplayDescentProfileGUI">0</bool>
+    <bool name="DisplaySettingsGUI">0</bool>
+    <bool name="UseBlizzyToolbar">1</bool>
+    <bool name="DisplayTrajectories">1</bool>
+    <bool name="DisplayTrajectoriesInFlight">1</bool>
+    <bool name="AlwaysUpdate">1</bool>
+    <bool name="DisplayCompleteTrajectory">1</bool>
+    <bool name="BodyFixedMode">1</bool>
+    <bool name="AutoUpdateAerodynamicModel">1</bool>
+    <rect name="MapGUIWindowPos">
+        <xmin>0</xmin>
+        <xmax>1</xmax>
+        <ymin>0</ymin>
+        <ymax>0</ymax>
+    </rect>
+    <bool name="MainGUIEnabled">0</bool>
+    <vector2 name="MainGUIWindowPos">
+        <x>0.520624995</x>
+        <y>0.588888884</y>
+    </vector2>
+    <int name="MainGUICurrentPage">3</int>
+    <bool name="GUIEnabled">0</bool>
+    <bool name="NewGui">1</bool>
+    <double name="IntegrationStepSize">2</double>
+    <int name="MaxPatchCount">4</int>
+    <int name="MaxFramesPerPatch">15</int>
+    <bool name="UseCache">0</bool>
+    <bool name="DefaultDescentIsRetro">1</bool>
+</config>

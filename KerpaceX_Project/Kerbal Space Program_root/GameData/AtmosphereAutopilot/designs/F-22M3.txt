@@ -1,0 +1,61 @@
+Flight_model
+{
+	balance_engines = False
+	balancer_steering_k = 1
+}
+Director_controller
+{
+	strength = 0.95
+	max_neg_g = 8
+}
+Pitch_ang_vel_controller
+{
+	moderate_aoa = True
+	moderate_g = True
+	max_aoa = 15
+	max_g_force = 15
+	max_v_construction = 0.7
+}
+Roll_ang_vel_controller
+{
+	wing_leveler = True
+	max_v_construction = 3
+}
+Yaw_ang_vel_controller
+{
+	moderate_aoa = True
+	moderate_g = True
+	max_aoa = 15
+	max_g_force = 15
+	max_v_construction = 0.7
+}
+Cruise_Flight_controller
+{
+	desired_course_field = 90_G4
+	desired_latitude_field = -0.0486178_#0.0000
+	desired_longitude_field = -74.72444_#0.0000
+	vertical_control = False
+	desired_altitude_field = 1000_G5
+	desired_vertspeed_field = 0_G4
+	preudo_flc = True
+	flc_margin = 20
+	strength_mult = 0.75
+	height_relax_time = 6
+	height_relax_Kp = 0.3
+	max_climb_angle = 30
+}
+Prograde_thrust_controller
+{
+	break_margin = 10
+	Kp_v_factor = 0.5
+	spd_type = MetersPerSecond
+	setpoint_field = 100_G4
+	pid_Kp = 0.4
+	pid_Ki = 0.1
+	pid_Kd = 0.5
+}
+Standard_Fly-By-Wire
+{
+	rocket_mode = False
+	coord_turn = False
+}

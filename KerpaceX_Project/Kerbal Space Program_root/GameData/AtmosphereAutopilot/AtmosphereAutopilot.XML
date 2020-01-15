@@ -1,0 +1,680 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AtmosphereAutopilot</name>
+    </assembly>
+    <members>
+        <member name="T:AtmosphereAutopilot.AutoHotkeyAttr">
+            <summary>
+            Attribute to mark auto-managed hotkeys
+            </summary>
+        </member>
+        <member name="F:AtmosphereAutopilot.AutoHotkeyAttr.hotkey_name">
+            <summary>
+            Name of the hotkey to display
+            </summary>
+        </member>
+        <member name="T:AtmosphereAutopilot.AutoHotkey">
+            <summary>
+            Window to manage hotkeys for different modules
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.AutoHotkey.Serialize">
+            <summary>
+            Serialize window position
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.AutoHotkey.Deserialize">
+            <summary>
+            Deserialize window position
+            </summary>
+        </member>
+        <member name="P:AtmosphereAutopilot.AtmosphereAutopilot.Instance">
+            <summary>
+            Get AtmosphereAutopilot addon class instance
+            </summary>
+        </member>
+        <member name="P:AtmosphereAutopilot.AtmosphereAutopilot.ActiveVessel">
+            <summary>
+            Get current active (controlled by player) vessel
+            </summary>
+        </member>
+        <member name="P:AtmosphereAutopilot.AtmosphereAutopilot.AeroModel">
+            <summary>
+            Current aerodynamics model.
+            </summary>
+        </member>
+        <member name="P:AtmosphereAutopilot.AtmosphereAutopilot.control_surface_module_type">
+            <summary>
+            Type of module of control surface.
+            </summary>
+        </member>
+        <member name="P:AtmosphereAutopilot.AtmosphereAutopilot.BackgroundThread">
+            <summary>
+            Get background thread, used by autopilot framework
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.AtmosphereAutopilot.getVesselModules(Vessel)">
+            <summary>
+            Get the map of AutopilotModule instances, created for arbitrary vessel.
+            </summary>
+        </member>
+        <member name="T:AtmosphereAutopilot.BackgroundThread">
+            <summary>
+            Background thread, designed to execute a set of functions with limits on execution freuency
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.BackgroundThread.remove_func(System.Func{System.Boolean})">
+            <summary>
+            Remove function from thread execution queue.
+            </summary>
+            <param name="hndl">Function to remove,</param>
+        </member>
+        <member name="M:AtmosphereAutopilot.BackgroundThread.add_func(System.Func{System.Boolean})">
+            <summary>
+            Add function to thread execution queue
+            </summary>
+            <param name="hndl">Handle to parameterless function, that returns true if it was fully executed or false if
+            it didn't execute. You would want to return false if you didn't allow it to run now.</param>
+        </member>
+        <member name="T:AtmosphereAutopilot.DelayedFieldFloat">
+            <summary>
+            Struct for organizing delayed textfield input. Use DisplayLayout() to integrate into OnGUI code,
+            use OnUpdate() to account for time.
+            </summary>
+        </member>
+        <member name="F:AtmosphereAutopilot.DelayedFieldFloat.val">
+            <summary>
+            Underlying float value to represent
+            </summary>
+        </member>
+        <member name="F:AtmosphereAutopilot.DelayedFieldFloat.time">
+            <summary>
+            Time in seconds after input string was changed by user input
+            </summary>
+        </member>
+        <member name="F:AtmosphereAutopilot.DelayedFieldFloat.changed">
+            <summary>
+            true when we're counting time
+            </summary>
+        </member>
+        <member name="F:AtmosphereAutopilot.DelayedFieldFloat.input_str">
+            <summary>
+            String that holds input value
+            </summary>
+        </member>
+        <member name="F:AtmosphereAutopilot.DelayedFieldFloat.format_str">
+            <summary>
+            String that holds conversion formatting
+            </summary>
+        </member>
+        <member name="T:AtmosphereAutopilot.DelayedFieldFloat.CoordFormat">
+            <summary>
+            lat/lon may be entered in deg min secHemi format
+            e.g. 74 39 39W
+            Only permits entry via OnUpdate; not via the setter
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.DelayedFieldFloat.#ctor(System.Single,System.String,AtmosphereAutopilot.DelayedFieldFloat.CoordFormat)">
+            <summary>
+            
+            </summary>
+            <param name="init_value">Initial value</param>
+            <param name="format"></param>
+        </member>
+        <member name="T:AtmosphereAutopilot.AutoGuiAttr">
+            <summary>
+            Attribute for auto-rendered parameters. Use it on property or field to draw it
+            by AutoGUI.AutoDrawObject method. Supports all basic types and IEnumarable.
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.AutoGuiAttr.#ctor(System.String,System.Boolean,System.String)">
+            <summary>
+            Set this property or field as auto-renderable.
+            </summary>
+            <param name="value_name">Displayed element name</param>
+            <param name="editable">Can be edited by user. Use for basic types only!</param>
+            <param name="format">If type provides ToString(string format) method, this format string
+            will be used. You can set it to null if not required</param>
+        </member>
+        <member name="T:AtmosphereAutopilot.IWindow">
+            <summary>
+            Interface for all windows.
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.IWindow.OnGUI">
+            <summary>
+            OnGUI Unity event handler
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.IWindow.IsShown">
+            <summary>
+            Returns true if window is shown.
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.IWindow.ToggleGUI">
+            <summary>
+            Toggle window shown\unshown state
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.IWindow.ShowGUI">
+            <summary>
+            Show window.
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.IWindow.UnShowGUI">
+            <summary>
+            Do not show window.
+            </summary>
+        </member>
+        <member name="T:AtmosphereAutopilot.GUIWindow">
+            <summary>
+            Basic window, derived class needs to implement _drawGUI method.
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.GUIWindow.#ctor(System.String,System.Int32,UnityEngine.Rect)">
+            <summary>
+            Create window instance.
+            </summary>
+            <param name="wndname">Window header</param>
+            <param name="wnd_id">Unique for Unity engine id</param>
+            <param name="window">Initial window position rectangle</param>
+        </member>
+        <member name="P:AtmosphereAutopilot.GUIWindow.WindowName">
+            <summary>
+            Get window header.
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.GUIWindow.IsShown">
+            <inheritdoc />
+        </member>
+        <member name="M:AtmosphereAutopilot.GUIWindow.OnGUI">
+            <inheritdoc />
+        </member>
+        <member name="M:AtmosphereAutopilot.GUIWindow.close_button">
+            <summary>
+            Procedure for close "x" button in upper right corner
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.GUIWindow.OnGUICustom">
+            <summary>
+            Called after each _drawGUI call
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:AtmosphereAutopilot.GUIWindow.OnGUICustomAlways" -->
+        <member name="M:AtmosphereAutopilot.GUIWindow.ToggleGUI">
+            <inheritdoc />
+        </member>
+        <member name="M:AtmosphereAutopilot.GUIWindow._drawGUI(System.Int32)">
+            <summary>
+            Main drawing function
+            </summary>
+            <param name="id">Unique window id. Just ignore it in function realization.</param>
+        </member>
+        <member name="M:AtmosphereAutopilot.GUIWindow.ShowGUI">
+            <inheritdoc />
+        </member>
+        <member name="M:AtmosphereAutopilot.GUIWindow.UnShowGUI">
+            <inheritdoc />
+        </member>
+        <member name="T:AtmosphereAutopilot.AutoGUI">
+            <summary>
+            Automatic property and field rendering functionality.
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.AutoGUI.AutoDrawObject(System.Object)">
+            <summary>
+            Render class instace using AutoGuiAttr markup.
+            </summary>
+            <param name="obj">object to render to current GUILayout.</param>
+        </member>
+        <member name="M:AtmosphereAutopilot.AutoGUI.draw_element(System.Object,System.Object)">
+            <summary>
+            Main rendering function.
+            </summary>
+            <param name="element">Field or property info to render</param>
+            <param name="obj">Object instance</param>
+        </member>
+        <member name="T:AtmosphereAutopilot.AutoSerializableAttr">
+            <summary>
+            Base class for auto-serializable fields and properties
+            </summary>
+        </member>
+        <member name="T:AtmosphereAutopilot.VesselSerializable">
+            <summary>
+            Use this attribute to make this field auto-serializable to vessel-specific config.
+            </summary>
+        </member>
+        <member name="T:AtmosphereAutopilot.GlobalSerializable">
+            <summary>
+            Use this attribute to make this field auto-serializable to global config.
+            </summary>
+        </member>
+        <member name="T:AtmosphereAutopilot.AutoSerialization">
+            <summary>
+            Automatic property and field value serialization/deserialization functionality
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.AutoSerialization.Deserialize(System.Object,System.String,System.String,System.Type,System.Action{ConfigNode,System.Type})">
+            <summary>
+            Deserialize object from file
+            </summary>
+            <param name="obj">Object to deserialize</param>
+            <param name="node_name">Node to search for in file</param>
+            <param name="filename">full file path</param>
+            <param name="attribute_type">Type of attributes to deserialize</param>
+            <param name="OnDeserialize">Callback for custom behaviour, 
+            called after automatic part is over and didn't crash. Gets node, 
+            from wich object was deserialized and attribute type.</param>
+            <returns>true if node_name node was found and used to deserialize the object</returns>
+        </member>
+        <member name="M:AtmosphereAutopilot.AutoSerialization.Serialize(System.Object,System.String,System.String,System.Type,System.Action{ConfigNode,System.Type})">
+            <summary>
+            Serialize object to file
+            </summary>
+            <param name="obj">Object to serialize</param>
+            <param name="node_name">Node to create in file</param>
+            <param name="filename">full file path</param>
+            <param name="attribute_type">Type of attributes to serialize</param>
+            <param name="OnSerialize">Callback for custom behaviour, 
+            called after automatic part is over and didn't crash. Gets node, 
+            to wich object was serialized to and attribute type.</param>
+        </member>
+        <member name="T:AtmosphereAutopilot.AffineScaling">
+            <summary>
+            Linear programming solver
+            </summary>
+        </member>
+        <member name="T:AtmosphereAutopilot.GradientLP">
+            <summary>
+            Euristic gradient descend optimizer for [0..1] bounded parameters in problem:
+            maximize c*x while A*x=b and x in 0..1
+            </summary>
+        </member>
+        <member name="T:AtmosphereAutopilot.OnlineLinTrainer.LinApproxTask">
+            <summary>
+            Approximator to train on this particular data set with weight parameters
+            </summary>
+        </member>
+        <member name="F:AtmosphereAutopilot.OnlineLinTrainer.linearity_check_task">
+            <summary>
+            What approximator to use as linearity judge
+            </summary>
+        </member>
+        <member name="T:AtmosphereAutopilot.VectorArray">
+            <summary>
+            Fast matrix-like container, designed for array-like storage of small vectors of doubles.
+            </summary>
+        </member>
+        <member name="T:AtmosphereAutopilot.FlightModel">
+            <summary>
+            Short-term motion model. Is responsible for angular velocity, angular acceleration, control signal and 
+            angle of attack evaluation and storage. Executes analysis of pitch, roll and yaw evolution and control authority.
+            </summary>
+        </member>
+        <member name="F:AtmosphereAutopilot.FlightModel.dyn_pressure">
+            <summary>
+            Current dynamic pressure = density * air_speed^2
+            </summary>
+        </member>
+        <member name="F:AtmosphereAutopilot.FlightModel.virtualRotation">
+            <summary>
+            Virtual rotation of the vessel, filtered from interpart oscillations
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.FlightModel.ControlInputHistory(System.Int32)">
+            <summary>
+            Control signal history for pitch, roll or yaw. [-1.0, 1.0].
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.FlightModel.ControlInput(System.Int32)">
+            <summary>
+            Control signal for pitch, roll or yaw. [-1.0, 1.0].
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.FlightModel.ControlSurfPosHistory(System.Int32)">
+            <summary>
+            Lagged control surface position history for pitch, roll or yaw. [-1.0, 1.0].
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.FlightModel.ControlSurfPos(System.Int32)">
+            <summary>
+            Lagged control surface position for pitch, roll or yaw. [-1.0, 1.0].
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.FlightModel.GimbalPosHistory(System.Int32)">
+            <summary>
+            Lagged gimbal position history for pitch, roll or yaw. [-1.0, 1.0].
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.FlightModel.GimbalPos(System.Int32)">
+            <summary>
+            Lagged gimbal position for pitch, roll or yaw. [-1.0, 1.0].
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.FlightModel.AngularVelHistory(System.Int32)">
+            <summary>
+            Angular velocity history for pitch, roll or yaw. Radians per second.
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.FlightModel.AngularVel(System.Int32)">
+            <summary>
+            Angular velocity for pitch, roll or yaw. Radians per second.
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.FlightModel.AngularAccHistory(System.Int32)">
+            <summary>
+            Angular acceleration hitory for pitch, roll or yaw. Radians per second per second.
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.FlightModel.AngularAcc(System.Int32)">
+            <summary>
+            Angular acceleration for pitch, roll or yaw. Radians per second per second.
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.FlightModel.AoAHistory(System.Int32)">
+            <summary>
+            Angle of attack hitory for pitch, roll or yaw. Radians.
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.FlightModel.AoA(System.Int32)">
+            <summary>
+            Angle of attack for pitch, roll or yaw. Radians.
+            </summary>
+        </member>
+        <member name="T:AtmosphereAutopilot.DirectorController">
+            <summary>
+            Controls surface velocity vector
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.DirectorController.ApplyControl(FlightCtrlState,Vector3d,Vector3d)">
+            <summary>
+            Main control function
+            </summary>
+            <param name="desired_vel">Desired velocity direction in surface reference frame.</param>
+            <param name="desired_acceleration">Desired acceleration.</param>
+        </member>
+        <member name="F:AtmosphereAutopilot.DirectorController.allow_spine_down">
+            <summary>
+            Allow rotating belly-up to prevent too large negative g-forces
+            </summary>
+        </member>
+        <member name="F:AtmosphereAutopilot.DirectorController.roll_acc_factor">
+            <summary>
+            Max roll angular acceleration
+            </summary>
+        </member>
+        <member name="F:AtmosphereAutopilot.DirectorController.max_roll_v">
+            <summary>
+            Max roll angular velocity
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.DirectorController.get_desired_roll_v(System.Double)">
+            <summary>
+            Calculate input for roll velocity controller
+            </summary>
+            <param name="angle_error">Roll error</param>
+            <returns>desired roll angular velocity</returns>
+        </member>
+        <member name="T:AtmosphereAutopilot.AngularAccAdaptiveController">
+            <summary>
+            Controls angular acceleration. Meant to be used by AngularVelAdaptiveController
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.AngularAccAdaptiveController.#ctor(Vessel,System.String,System.Int32,System.Int32)">
+            <summary>
+            Create controller instance.
+            </summary>
+            <param name="vessel">Vessel to control</param>
+            <param name="module_name">Name of controller</param>
+            <param name="wnd_id">unique for types window id</param>
+            <param name="axis">Pitch = 0, roll = 1, yaw = 2</param>
+        </member>
+        <member name="M:AtmosphereAutopilot.AngularAccAdaptiveController.ApplyControl(FlightCtrlState,System.Single)">
+            <summary>
+            Main control function
+            </summary>
+            <param name="cntrl">Control state to change</param>
+            <param name="target_value">Desired angular acceleration</param>
+        </member>
+        <member name="T:AtmosphereAutopilot.GUIStyles">
+            <summary>
+            Collection of standard for AtmosphereAutopilot AutoGUI styles
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.Matrix.#ctor(System.Collections.Generic.IList{System.Double},System.Boolean)">
+            <summary>
+            Create matrix view of collection
+            </summary>
+            <param name="source">Collection to view as matrix</param>
+            <param name="column_vector">Create column vector instead of row vector</param>
+        </member>
+        <member name="M:AtmosphereAutopilot.Matrix.MultOnDiagonal(System.Collections.Generic.IList{System.Double},System.Int32,AtmosphereAutopilot.Matrix@)">
+            <summary>
+            Multiply matrix with diagonal matrix, represented by IList
+            </summary>
+        </member>
+        <member name="T:AtmosphereAutopilot.AngularVelAdaptiveController">
+            <summary>
+            Controls angular velocity
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.AngularVelAdaptiveController.#ctor(Vessel,System.String,System.Int32,System.Int32)">
+            <summary>
+            Create controller instance
+            </summary>
+            <param name="vessel">Vessel to control</param>
+            <param name="module_name">Name of controller</param>
+            <param name="wnd_id">unique for types window id</param>
+            <param name="axis">Pitch = 0, roll = 1, yaw = 2</param>
+            <param name="model">Flight model instance for adaptive control</param>
+        </member>
+        <member name="M:AtmosphereAutopilot.AngularVelAdaptiveController.ApplyControl(FlightCtrlState,System.Single,System.Single)">
+            <summary>
+            Main control function
+            </summary>
+            <param name="cntrl">Control state to change</param>
+        </member>
+        <member name="T:AtmosphereAutopilot.CruiseController">
+            <summary>
+            Manages cruise flight modes, like heading and altitude holds
+            </summary>
+        </member>
+        <member name="T:AtmosphereAutopilot.ProgradeThrustController">
+            <summary>
+            Naive thrust controller for regular plane flight.
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.ProgradeThrustController.ApplyControl(FlightCtrlState,System.Single)">
+            <summary>
+            Main control function
+            </summary>
+            <param name="cntrl">Control state to change</param>
+            <param name="target_value">Prograde surface speed setpoint</param>
+        </member>
+        <member name="F:AtmosphereAutopilot.ProgradeThrustController.setpoint">
+            <summary>
+            Current speed setpoint, wich is maintained by controller
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.ProgradeThrustController.SpeedCtrlGUIBlock">
+            <summary>
+            Standard speed control GUI block to integrate in other controllers
+            </summary>
+            <returns>true if speed control is enabled</returns>
+        </member>
+        <member name="T:AtmosphereAutopilot.AutopilotModule">
+            <summary>
+            Represents autopilot module, wich can be turned on and off.
+            It has GUI and can be serialized. Derived classes need to implement
+            OnActivate and OnDeactivate.
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.AutopilotModule.InitializeDependencies(System.Collections.Generic.Dictionary{System.Type,AtmosphereAutopilot.AutopilotModule})">
+            <summary>
+            If this module is dependent on other modules, you should get references to
+            required ones in this call.
+            </summary>
+            <param name="modules">Map of autopilot modules, instanced for this vessel.</param>
+        </member>
+        <member name="M:AtmosphereAutopilot.AutopilotModule.OnUpdate">
+            <summary>
+            Is called on Update Unity event for current vessel every frame
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.AutopilotModule.DeserializeVesselSpecific">
+            <summary>
+            Deserialize vessel-specific fields. Optional OnDeserialize callback is used.
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.AutopilotModule.DeserializeGlobalSpecific">
+            <summary>
+            Deserialize global fields. Optional OnDeserialize callback is used.
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.AutopilotModule.Serialize">
+            <summary>
+            Serialize global and vessel data to files. BeforeSerialized and OnSerialize callbacks are used.
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.AutopilotModule.Deserialize">
+            <summary>
+            Deserialize global data and then vessel-specific. Optional BeforeDeserialized and OnDeserialize 
+            callbacks are used.
+            </summary>
+            <returns>true if nothing crashed</returns>
+        </member>
+        <member name="M:AtmosphereAutopilot.AutopilotModule._drawGUI(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:AtmosphereAutopilot.AoAController.ApplyControl(FlightCtrlState,System.Single,System.Single)">
+            <summary>
+            Main control function
+            </summary>
+            <param name="cntrl">Control state to change</param>
+            <param name="target_value">Desired AoA in radians</param>
+            <param name="target_derivative">Desired AoA derivative</param>
+        </member>
+        <member name="M:AtmosphereAutopilot.StandardFlyByWire.ApplyControl(FlightCtrlState)">
+            <summary>
+            Main control function
+            </summary>
+            <param name="cntrl">Control state to change</param>
+        </member>
+        <member name="T:AtmosphereAutopilot.StateController">
+            <summary>
+            Flight control state controller base class
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.StateController.ApplyControl(FlightCtrlState)">
+            <summary>
+            Main control function of high-level autopilot.
+            </summary>
+            <param name="cntrl">Control state to change</param>
+        </member>
+        <member name="T:AtmosphereAutopilot.SISOController">
+            <summary>
+            Flight control state controller with SIMO base class
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.SISOController.ApplyControl(FlightCtrlState,System.Single)">
+            <summary>
+            Main control function of service autopilot.
+            </summary>
+            <param name="cntrl">Control state to change</param>
+            <param name="target_value">Desired controlled value</param>
+        </member>
+        <member name="M:AtmosphereAutopilot.Common.Realloc``1(``0[]@,System.Int32)">
+            <summary>
+            Reallocate array if needed
+            </summary>
+            <param name="capacity">Required array capacity</param>
+            <param name="storage">Storage to try to reuse</param>
+        </member>
+        <member name="M:AtmosphereAutopilot.Common.rotationMatrix(UnityEngine.Quaternion,AtmosphereAutopilot.Matrix)">
+            <summary>
+            http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/index.htm
+            </summary>
+            <param name="q">Rotation</param>
+            <returns>Transformation matrix representing rotation</returns>
+        </member>
+        <member name="T:AtmosphereAutopilot.PIDController">
+            <summary>
+            PID-based input value controller
+            </summary>
+        </member>
+        <member name="P:AtmosphereAutopilot.PIDController.KP">
+            <summary>
+            Proportional gain coefficient
+            </summary>
+        </member>
+        <member name="P:AtmosphereAutopilot.PIDController.KI">
+            <summary>
+            Integral gain coefficient
+            </summary>
+        </member>
+        <member name="P:AtmosphereAutopilot.PIDController.KD">
+            <summary>
+            Diffirential gain coefficient
+            </summary>
+        </member>
+        <member name="P:AtmosphereAutopilot.PIDController.IntegralClamp">
+            <summary>
+            Maximum error, wich lets integral component to raise
+            </summary>
+        </member>
+        <member name="P:AtmosphereAutopilot.PIDController.AccumulDerivClamp">
+            <summary>
+            Maximum accumulator derivative
+            </summary>
+        </member>
+        <member name="P:AtmosphereAutopilot.PIDController.AccumulatorClamp">
+            <summary>
+            Maximum magnitude for integral component of controller reaction
+            </summary>
+        </member>
+        <member name="P:AtmosphereAutopilot.PIDController.IntegralGain">
+            <summary>
+            Accumulator gain, is multiplied on error * dt to get accumulator change
+            </summary>
+        </member>
+        <member name="P:AtmosphereAutopilot.PIDController.InputDerivative">
+            <summary>
+            Input derivative value from the last control iteration
+            </summary>
+        </member>
+        <member name="P:AtmosphereAutopilot.PIDController.Accumulator">
+            <summary>
+            Current accumulator value
+            </summary>
+        </member>
+        <member name="P:AtmosphereAutopilot.PIDController.LastError">
+            <summary>
+            Last error value. Error = desire - input
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.PIDController.Control(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            Control function with manually provided input derivative
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.PIDController.clear">
+            <summary>
+            Clear accumulator
+            </summary>
+        </member>
+        <member name="M:AtmosphereAutopilot.TopModuleManager.activateAutopilot(System.Type)">
+            <summary>
+            Set desired controller as active.
+            </summary>
+            <param name="controllerType">Type of StateController to activate.</param>
+            <returns>Instance of activated controller or null if something failed.</returns>
+        </member>
+        <member name="T:AtmosphereAutopilot.SyncModuleControlSurface">
+            <summary>
+            Synchronised ModuleControlSurface realization, greatly simplifies control and flight model regression 
+            by making all control surfaces move in one phase.
+            </summary>
+        </member>
+    </members>
+</doc>
