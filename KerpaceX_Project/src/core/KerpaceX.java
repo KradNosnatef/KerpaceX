@@ -15,7 +15,7 @@ public class KerpaceX {
         SpaceCenter spaceCenter = SpaceCenter.newInstance(connection);
 		RunnableCaculator caculator=new RunnableCaculator(spaceCenter,"caculator");
 		RunnableController controller=new RunnableController(spaceCenter,"controller");
-		KSPPath.kspPath="shit";
+		KSPPath.kspPath=args[0];
 	}
 
 }
