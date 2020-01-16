@@ -19,10 +19,10 @@ import java.io.IOException;
 import java.lang.Math;
 import java.util.Timer;
 
-public class LaunchIntoOrbit {
+public class VerticalVelocityKeeping_TB {
     public static void main(String[] args)
         throws IOException, RPCException, InterruptedException, StreamException {
-        Connection connection = Connection.newInstance("Launch into orbit");
+        Connection connection = Connection.newInstance("VertocalVelocityKeeping_TB");
         SpaceCenter spaceCenter = SpaceCenter.newInstance(connection);
         SpaceCenter.Vessel vessel = spaceCenter.getActiveVessel();
         ReferenceFrame refFrame = spaceCenter.getBodies().get("Kerbin").getReferenceFrame();
