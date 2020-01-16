@@ -14,13 +14,13 @@ import com.alibaba.fastjson.JSONObject;
 
 import core.KSPPath;
 
-public class KosKrpcJSON {
+public class KosKrpcJSON {//这个类的作用是与运行在游戏内的KOS程序建立联系,通过JSON来通信
 	JSONObject object;
 	String path;
 	String JSONStr;
 	Object x;
 	Class clazz;
-	public KosKrpcJSON(String path,Class clazz) {//给出JSON文件所在相对ksp根目录的地址,给出被序列化的对象类型
+	public KosKrpcJSON(String path,Class clazz) {//给出KOS写的JSON文件所在相对ksp根目录的地址,给出被序列化的对象类型
 		this.path=path;
 		this.path=KSPPath.kspPath+this.path;
 		this.clazz=clazz;

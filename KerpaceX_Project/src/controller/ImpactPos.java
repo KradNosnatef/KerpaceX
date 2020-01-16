@@ -11,8 +11,8 @@ public class ImpactPos {//在实例化之后你可以refreshImpactPos以更新预计撞击点经纬
 		jsonConnection=new KosKrpcJSON("Ships\\Script\\TRdata.json",GeoCoordinates.class);
 	}
 	public void refreshImpactPos() throws IOException {
-		geoCoordinates=(GeoCoordinates) jsonConnection.getObject();
-		System.out.println(geoCoordinates.lat+" "+geoCoordinates.lng);
+		geoCoordinates=(GeoCoordinates) jsonConnection.getObject();//JSON通信!
+		System.out.println(geoCoordinates.lat+" "+geoCoordinates.lng);//打log,可以注释掉
 	}
 	public double getImpactPosLat() {
 		return geoCoordinates.lat;
