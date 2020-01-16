@@ -1,9 +1,11 @@
-package controller;
 /*
  * VerticalVelocityKeeping.java
  * Author: Jeffrey Xiang
  * Data: 2020.1.15
  */
+
+package controller;
+
 import java.util.TimerTask;
 
 import krpc.client.RPCException;
@@ -20,7 +22,6 @@ public class VerticalVelocityKeeping extends TimerTask
 	private boolean isRunning;			//是否在运行
 	private float throttle = 0;			//节流阀大小
 	private float thrustWeightRatio;	//推重比
-	private int count;					//计数，用于每10次计算一次推重比（每次都算太慢）
 	private double Kp = 0.1;			//比例参数
 	private double Ki = 1e-2;			//积分参数
 	private double Kd = -0.5;			//微分参数
@@ -58,15 +59,8 @@ public class VerticalVelocityKeeping extends TimerTask
 		{
 			if (isRunning)
 			{
-				if (count == 0)
-				{
-					count = 10;
-					thrustWeightRatio = vessel.getAvailableThrust() / vessel.getMass() / 10;
-				}
-				else
-					count--;
+				thrustWeightRatio = vessel.getAvailableThrust() / vessel.getMass() / 10;
 				current = flight.getVerticalSpeed();
-				System.out.println(thrustWeightRatio);
 				Dd = Dp - (target - current);
 				Dp = target - current;
 				Di += Dp;
@@ -86,7 +80,6 @@ public class VerticalVelocityKeeping extends TimerTask
 	public void start()
 	{
 		isRunning = true;
-		count = 0;
 	}
 	
 	//终止保持

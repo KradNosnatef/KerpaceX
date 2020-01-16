@@ -3,6 +3,9 @@
  * Author: Jeffrey Xiang
  * Data: 2020.1.16
  */
+
+package controller;
+
 public class BrakingPrediction
 {
 	private double mass;				//»ğ¼ı×ÜÖÊÁ¿
