@@ -1,3 +1,4 @@
+switch to 0.
 set w to latlng(0,0).
 until false{
     if addons:tr:hasimpact=0 {

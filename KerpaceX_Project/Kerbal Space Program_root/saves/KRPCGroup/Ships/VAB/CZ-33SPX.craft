@@ -16,7 +16,7 @@ PART
 {
 	part = Rockomax32.BW_4293288198
 	partName = Part
-	persistentId = 1567427235
+	persistentId = 3102311283
 	pos = -0.0445908606,33.3386497,0.0900749564
 	attPos = 0,0,0
 	attPos0 = 0,3.71999931,0
@@ -149,7 +149,7 @@ PART
 {
 	part = probeStackLarge_4293286792
 	partName = Part
-	persistentId = 106307274
+	persistentId = 3062359014
 	pos = -0.0445908606,35.388649,0.0900749564
 	attPos = 0,0,0
 	attPos0 = 0,2.04999924,0
@@ -1051,7 +1051,7 @@ PART
 {
 	part = asasmodule1-2_4293285264
 	partName = Part
-	persistentId = 3233550755
+	persistentId = 3962047562
 	pos = -0.0445908606,35.8286514,0.0900749564
 	attPos = 0,0,0
 	attPos0 = 0,0.440002441,0
@@ -1177,7 +1177,7 @@ PART
 {
 	part = batteryBankLarge_4293280986
 	partName = Part
-	persistentId = 2958819452
+	persistentId = 2096542091
 	pos = -0.0445908606,36.2206497,0.0900749564
 	attPos = 0,0,0
 	attPos0 = 0,0.391998291,0
@@ -1275,7 +1275,7 @@ PART
 {
 	part = airbrake1_4293278166
 	partName = Part
-	persistentId = 3761345437
+	persistentId = 949802329
 	pos = -1.30021966,34.3057022,0.0900750309
 	attPos = 0,0,0
 	attPos0 = -1.25562882,0.96705246,7.4505806E-08
@@ -1469,7 +1469,7 @@ PART
 {
 	part = airbrake1_4293278086
 	partName = Part
-	persistentId = 963458378
+	persistentId = 3359932234
 	pos = -0.0445908606,34.3057022,1.3457036
 	attPos = 0,0,0
 	attPos0 = 0,0.96705246,1.25562871
@@ -1647,7 +1647,7 @@ PART
 {
 	part = airbrake1_4293278014
 	partName = Part
-	persistentId = 3899831259
+	persistentId = 419885469
 	pos = 1.21103799,34.3057022,0.0900747702
 	attPos = 0,0,0
 	attPos0 = 1.25562882,0.96705246,-1.86264515E-07
@@ -1825,7 +1825,7 @@ PART
 {
 	part = airbrake1_4293277942
 	partName = Part
-	persistentId = 1830029214
+	persistentId = 390545331
 	pos = -0.0445910096,34.3057022,-1.16555381
 	attPos = 0,0,0
 	attPos0 = -1.49011612E-07,0.96705246,-1.25562871
@@ -2003,7 +2003,7 @@ PART
 {
 	part = SurfAntenna_4293267284
 	partName = Part
-	persistentId = 572254039
+	persistentId = 3453267052
 	pos = -0.933773637,35.0946198,-0.799107611
 	attPos = 0,0,0
 	attPos0 = -0.889182746,1.75597,-0.889182568
@@ -2112,7 +2112,7 @@ PART
 {
 	part = SurfAntenna_4293266814
 	partName = Part
-	persistentId = 1816535397
+	persistentId = 2054678645
 	pos = -0.933773398,35.0946198,0.979257584
 	attPos = 0,0,0
 	attPos0 = -0.889182568,1.75597,0.889182627
@@ -2221,7 +2221,7 @@ PART
 {
 	part = SurfAntenna_4293266778
 	partName = Part
-	persistentId = 3923066980
+	persistentId = 3393961504
 	pos = 0.844591975,35.0946198,0.979257464
 	attPos = 0,0,0
 	attPos0 = 0.889182806,1.75597,0.889182508
@@ -2330,7 +2330,7 @@ PART
 {
 	part = SurfAntenna_4293266742
 	partName = Part
-	persistentId = 3705434379
+	persistentId = 2546411365
 	pos = 0.844591618,35.0946198,-0.79910779
 	attPos = 0,0,0
 	attPos0 = 0.889182448,1.75597,-0.889182746
@@ -2439,7 +2439,7 @@ PART
 {
 	part = fairingSize2_4293594720
 	partName = Part
-	persistentId = 2361036714
+	persistentId = 3045659508
 	pos = -0.0445908606,36.5306511,0.0900749564
 	attPos = 0,0,0
 	attPos0 = -0.0445908606,36.5306511,0.0900749564
@@ -2836,7 +2836,7 @@ PART
 {
 	part = parachuteRadial_4293141198
 	partName = Part
-	persistentId = 2923210967
+	persistentId = 4070286236
 	pos = -0.842879534,36.758152,0.0900750011
 	attPos = 0,0,0
 	attPos0 = -0.798288703,0.227500916,4.47034836E-08
@@ -3002,7 +3002,7 @@ PART
 {
 	part = parachuteRadial_4293140156
 	partName = Part
-	persistentId = 733921225
+	persistentId = 2002614286
 	pos = -0.443735152,36.758152,0.781413257
 	attPos = 0,0,0
 	attPos0 = -0.399144292,0.227500916,0.691338301
@@ -3168,7 +3168,7 @@ PART
 {
 	part = parachuteRadial_4293140096
 	partName = Part
-	persistentId = 258548553
+	persistentId = 3348716205
 	pos = 0.35455361,36.758152,0.781413198
 	attPos = 0,0,0
 	attPos0 = 0.399144471,0.227500916,0.691338241
@@ -3334,7 +3334,7 @@ PART
 {
 	part = parachuteRadial_4293140036
 	partName = Part
-	persistentId = 3292278286
+	persistentId = 583941165
 	pos = 0.753697872,36.758152,0.0900748447
 	attPos = 0,0,0
 	attPos0 = 0.798288703,0.227500916,-1.11758709E-07
@@ -3500,7 +3500,7 @@ PART
 {
 	part = parachuteRadial_4293139976
 	partName = Part
-	persistentId = 3096041137
+	persistentId = 11486701
 	pos = 0.354553491,36.758152,-0.601263463
 	attPos = 0,0,0
 	attPos0 = 0.399144351,0.227500916,-0.69133842
@@ -3666,7 +3666,7 @@ PART
 {
 	part = parachuteRadial_4293139916
 	partName = Part
-	persistentId = 2936667846
+	persistentId = 2366102153
 	pos = -0.443735152,36.758152,-0.601263404
 	attPos = 0,0,0
 	attPos0 = -0.399144292,0.227500916,-0.69133836
@@ -3832,7 +3832,7 @@ PART
 {
 	part = Rockomax64.BW_4293120902
 	partName = Part
-	persistentId = 1625382472
+	persistentId = 1527719917
 	pos = -0.0445908606,27.7486496,0.0900749564
 	attPos = 0,0,0
 	attPos0 = 0,-5.59000015,0
@@ -3963,7 +3963,7 @@ PART
 {
 	part = Rockomax64.BW_4293312286
 	partName = Part
-	persistentId = 6190642
+	persistentId = 1397758046
 	pos = -0.0445908606,20.2886505,0.0900749564
 	attPos = 0,0,0
 	attPos0 = 0,-7.45999908,0
@@ -4093,7 +4093,7 @@ PART
 {
 	part = LiquidEngineKE-1_4293304232
 	partName = Part
-	persistentId = 2462893604
+	persistentId = 1486216221
 	pos = -0.0445908606,15.7586517,0.0900749564
 	attPos = 0,0,0
 	attPos0 = 0,-4.52999878,0
@@ -4402,7 +4402,7 @@ PART
 {
 	part = radialLiquidEngine1-2_4293271664
 	partName = Part
-	persistentId = 1299445513
+	persistentId = 2550200985
 	pos = -0.922960043,17.0011311,-0.788294196
 	attPos = 0,0,0
 	attPos0 = -0.878369212,-3.28751945,-0.878369153
@@ -4657,7 +4657,7 @@ PART
 {
 	part = radialLiquidEngine1-2_4293271450
 	partName = Part
-	persistentId = 1498326490
+	persistentId = 3838861452
 	pos = -0.922960043,17.0011311,0.968444049
 	attPos = 0,0,0
 	attPos0 = -0.878369153,-3.28751945,0.878369093
@@ -4904,7 +4904,7 @@ PART
 {
 	part = radialLiquidEngine1-2_4293271346
 	partName = Part
-	persistentId = 1146260063
+	persistentId = 3977943064
 	pos = 0.833778381,17.0011311,0.968444049
 	attPos = 0,0,0
 	attPos0 = 0.878369272,-3.28751945,0.878369093
@@ -5151,7 +5151,7 @@ PART
 {
 	part = radialLiquidEngine1-2_4293271242
 	partName = Part
-	persistentId = 783933939
+	persistentId = 4212091139
 	pos = 0.833778143,17.0011311,-0.788294256
 	attPos = 0,0,0
 	attPos0 = 0.878369033,-3.28751945,-0.878369212
@@ -5398,11 +5398,11 @@ PART
 {
 	part = strutConnector_4294206814
 	partName = CompoundPart
-	persistentId = 3807138408
+	persistentId = 2577427142
 	pos = -1.13699949,17.5122509,-1.00233388
 	attPos = 0,0,0
 	attPos0 = 0,0.511119843,0.302697122
-	rot = -0.0803043023,0.374162525,0.193871886,-0.903309226
+	rot = -0.0803043097,0.374162525,0.193871856,-0.903309166
 	attRot = 0,0,0,1
 	attRot0 = -0.148383155,0.691362977,-0.148383081,0.691362619
 	mir = 1,1,1
@@ -5521,11 +5521,11 @@ PART
 {
 	part = strutConnector_4294206608
 	partName = CompoundPart
-	persistentId = 77615946
+	persistentId = 1478065233
 	pos = -1.13699925,17.5122509,1.1824832
 	attPos = 0,0,0
 	attPos0 = -8.94069672E-08,0.511119843,0.302697092
-	rot = 0.0803044587,-0.37416321,0.193871856,-0.903308868
+	rot = 0.0803044587,-0.37416327,0.193871856,-0.903308868
 	attRot = 0,0,0,1
 	attRot0 = -0.148383185,0.691362977,-0.148383096,0.6913625
 	mir = 1,1,1
@@ -5644,7 +5644,7 @@ PART
 {
 	part = strutConnector_4294206508
 	partName = CompoundPart
-	persistentId = 612806705
+	persistentId = 2802959556
 	pos = 1.04781759,17.5122509,1.1824832
 	attPos = 0,0,0
 	attPos0 = 4.47034765E-08,0.511119843,0.302697033
@@ -5767,11 +5767,11 @@ PART
 {
 	part = strutConnector_4294206408
 	partName = CompoundPart
-	persistentId = 157709350
+	persistentId = 302243185
 	pos = 1.04781747,17.5122509,-1.00233364
 	attPos = 0,0,0
 	attPos0 = 5.96046199E-08,0.511119843,0.302697301
-	rot = 0.193871856,-0.903308868,-0.0803044587,0.37416321
+	rot = 0.193871856,-0.903308868,-0.0803044587,0.37416327
 	attRot = 0,0,0,1
 	attRot0 = -0.148383185,0.691362977,-0.148383096,0.6913625
 	mir = 1,1,1
@@ -5890,7 +5890,7 @@ PART
 {
 	part = strutConnector_4294206266
 	partName = CompoundPart
-	persistentId = 585693972
+	persistentId = 1649719547
 	pos = -1.31941545,24.4735794,0.0900750309
 	attPos = 0,0,0
 	attPos0 = -1.27482462,-3.27507019,7.4505806E-08
@@ -6013,7 +6013,7 @@ PART
 {
 	part = strutConnector_4294206160
 	partName = CompoundPart
-	persistentId = 658064905
+	persistentId = 3860034396
 	pos = -0.0445908606,24.4735794,1.3648994
 	attPos = 0,0,0
 	attPos0 = 0,-3.27507019,1.27482438
@@ -6136,7 +6136,7 @@ PART
 {
 	part = strutConnector_4294206060
 	partName = CompoundPart
-	persistentId = 2619079870
+	persistentId = 2352312567
 	pos = 1.23023379,24.4735794,0.0900747702
 	attPos = 0,0,0
 	attPos0 = 1.27482462,-3.27507019,-1.86264515E-07
@@ -6259,7 +6259,7 @@ PART
 {
 	part = strutConnector_4294205960
 	partName = CompoundPart
-	persistentId = 4051289369
+	persistentId = 2463613057
 	pos = -0.0445910096,24.4735794,-1.1847496
 	attPos = 0,0,0
 	attPos0 = -1.49011612E-07,-3.27507019,-1.27482462
@@ -6382,7 +6382,7 @@ PART
 {
 	part = airbrake1_4294162852
 	partName = Part
-	persistentId = 2106337960
+	persistentId = 3325570428
 	pos = -0.991373301,13.8332443,0.0900749564
 	attPos = -0.103721976,0.00661849976,-5.21540642E-08
 	attPos0 = -0.843060493,-1.93202591,5.21540642E-08
@@ -6576,7 +6576,7 @@ PART
 {
 	part = airbrake1_4294162772
 	partName = Part
-	persistentId = 2214309117
+	persistentId = 53134058
 	pos = -0.0445909165,13.8332443,1.03685737
 	attPos = -5.96046448E-08,0.00661849976,0.103721976
 	attPos0 = 3.7252903E-09,-1.93202591,0.843060434
@@ -6754,7 +6754,7 @@ PART
 {
 	part = airbrake1_4294162700
 	partName = Part
-	persistentId = 3802080603
+	persistentId = 3206955754
 	pos = 0.902191639,13.8332443,0.0900748745
 	attPos = 0.103721976,0.00661849976,4.47034836E-08
 	attPos0 = 0.843060493,-1.93202591,-1.2665987E-07
@@ -6932,7 +6932,7 @@ PART
 {
 	part = airbrake1_4294162628
 	partName = Part
-	persistentId = 3121593859
+	persistentId = 2044893568
 	pos = -0.0445909165,13.8332443,-0.856707454
 	attPos = 4.47034836E-08,0.00661849976,-0.103721976
 	attPos0 = -1.00582838E-07,-1.93202591,-0.843060434
@@ -7110,7 +7110,7 @@ PART
 {
 	part = KAL9000_4294220000
 	partName = Part
-	persistentId = 2021122812
+	persistentId = 2111271158
 	pos = -1.14385581,30.8539505,0.724735916
 	attPos = 0,0,0
 	attPos0 = -1.09926498,3.1053009,0.634660959

@@ -11,6 +11,7 @@ public class RunnableCaculator implements Runnable{
 		this.spaceCenter=spaceCenter;
 	}
 	public void run() {
+		System.out.println("caculator Started!");
 		
 	}
 	public void start() {
