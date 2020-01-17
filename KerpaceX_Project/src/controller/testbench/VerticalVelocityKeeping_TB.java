@@ -1,4 +1,4 @@
-package controller.testbench;
+package controller.testBench;
 
 import krpc.client.Connection;
 import krpc.client.RPCException;
