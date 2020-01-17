@@ -9,5 +9,5 @@ until false{
     }
     print w.
     writeJson(w,"TRdata.json").
-    wait 1.
+    wait 0.1.
 }
