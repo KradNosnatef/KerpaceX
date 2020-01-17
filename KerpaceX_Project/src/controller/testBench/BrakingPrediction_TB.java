@@ -19,10 +19,10 @@ import java.io.IOException;
 import java.lang.Math;
 import java.util.Timer;
 
-public class VerticalVelocityKeeping_TB {
+public class BrakingPrediction_TB {
     public static void main(String[] args)
         throws IOException, RPCException, InterruptedException, StreamException {
-        Connection connection = Connection.newInstance("VertocalVelocityKeeping_TB");
+        Connection connection = Connection.newInstance("BrakingPrediction_TB");
         SpaceCenter spaceCenter = SpaceCenter.newInstance(connection);
         SpaceCenter.Vessel vessel = spaceCenter.getActiveVessel();
         ReferenceFrame refFrame = spaceCenter.getBodies().get("Kerbin").getReferenceFrame();
