@@ -1,7 +1,7 @@
 /*
  * VerticalVelocityKeeping.java
  * Author: Jeffrey Xiang
- * Data: 2020.1.15
+ * Date: 2020.1.15
  */
 
 package controller;
