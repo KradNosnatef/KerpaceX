@@ -2,6 +2,10 @@
  * LandingPhase.java
  * Author: Jeffrey Xiang
  * Date: 2020.1.18
+ * 
+ * Edited on 2020.1.19
+ * Add more parameters about the vessel to engage a more effective control stratege.
+ * Add method updateData.
  */
 
 package controller;
@@ -15,12 +19,29 @@ public class LandingPhase
 	private SpaceCenter.Flight flight;	//飞行对象，必须以Kerbin参考系建立
 	private double massCenterHeight;	//火箭质心高度
 	private float throttle;				//节流阀大小
+	private double mass;				//火箭总质量
+    private double thrust;				//火箭推力
+    private double thrustMassRatio;		//火箭推重比
+    private double fuelFlowRate;		//火箭燃料流量
+    private double currentVelocity;		//火箭当前速度
+    private double currentHeight;		//火箭当前高度
 	
 	public LandingPhase(SpaceCenter.Vessel vessel, SpaceCenter.Flight flight, double massCenterHeight) throws RPCException
     {
     	this.vessel = vessel;
     	this.flight = flight;
     	this.massCenterHeight = massCenterHeight;
+    }
+	
+	//获取火箭当前状态的数据
+    public void updateData() throws RPCException
+    {
+    	mass = vessel.getMass();
+        thrust = vessel.getThrust();
+        thrustMassRatio = thrust / mass / 9.82;
+        fuelFlowRate = thrust / vessel.getSpecificImpulse() / 9.82;
+        currentVelocity = flight.getVerticalSpeed();
+        currentHeight = flight.getSurfaceAltitude();
     }
 	
 	//开始执行降落段程序
@@ -31,6 +52,8 @@ public class LandingPhase
         {
         	Thread.sleep(0);
         }
+		vessel.getControl().setSAS(true);
+		vessel.getControl().setSASMode(SpaceCenter.SASMode.RETROGRADE);
 		for (int i = 0; i<4; i++)
 		{
 			vessel.getParts().withTag("airbrake").get(i).getControlSurface().setDeployed(true);
@@ -50,21 +73,22 @@ public class LandingPhase
         while (lowestHeight > 0 || flight.getSurfaceAltitude() > 4000);
         vessel.getControl().setThrottle(throttle);
         
-        Thread.sleep(1000);
+        Thread.sleep(100);
         
         double lowestHeightReachingTime, Dp;
         while (true)
         {
-        	brakingPrediction.updateData();
+        	updateData();
+        	brakingPrediction.setAllParameter(mass, thrust, fuelFlowRate, currentVelocity, currentHeight);
         	lowestHeightReachingTime = brakingPrediction.getlowestHeightReachingTime(1e-3);
         	lowestHeight = brakingPrediction.getHeight(lowestHeightReachingTime);
         	System.out.println(lowestHeight);
-        	Dp = -2.5e-4 * (lowestHeight - massCenterHeight + 1.6);
+        	Dp = -0.2 * Math.pow(thrustMassRatio / currentVelocity, 2) * (lowestHeight - massCenterHeight);
         	Dp = Dp > 1e-2 ? 1e-2 : Dp < -1e-2 ? -1e-2 : Dp;
         	throttle += Dp;
         	throttle = throttle < 0.5f ? 0.5f : throttle > 1 ? 1 : throttle;
         	vessel.getControl().setThrottle(throttle);
-        	Thread.sleep(20);
+        	Thread.sleep(0);
         	if (!isLandingLegDeployed && lowestHeightReachingTime < 6)
         	{
         		for (int i = 0; i<4; i++)
