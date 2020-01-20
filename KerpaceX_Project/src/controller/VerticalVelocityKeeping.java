@@ -10,7 +10,6 @@ import java.util.TimerTask;
 
 import krpc.client.RPCException;
 import krpc.client.services.SpaceCenter;
-import krpc.client.services.SpaceCenter.ReferenceFrame;
 
 //垂直速度保持模块，以50Hz运行
 public class VerticalVelocityKeeping extends TimerTask
@@ -30,7 +29,7 @@ public class VerticalVelocityKeeping extends TimerTask
 	private double Dd;					//微分偏差
 	
 	//构造函数，传入目标飞船，与Kerbin参考系
-	public VerticalVelocityKeeping(SpaceCenter.Vessel vessel,ReferenceFrame refFrame) throws RPCException
+	public VerticalVelocityKeeping(SpaceCenter.Vessel vessel, SpaceCenter.ReferenceFrame refFrame) throws RPCException
 	{
 		this.vessel = vessel;
 		flight = vessel.flight(refFrame);

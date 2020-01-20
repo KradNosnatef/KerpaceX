@@ -8,6 +8,9 @@
  * Now, to get the prediction of the lowest height, you don't need to set the velocity and height of the vessel. (these two methods have been removed)
  * But you need to use the updateData/updateFullBrakingData method to refresh the parameters before getting the prediction. (method updateData added)
  * I reserved the old way to set parameters, now you can set then through setAllParameter method.
+ * 
+ * Edited on 2020.1.20
+ * To fit the initialization format of VerticalVelocityKeep, the module now use Vessel and ReferenceFrame to initialize
  */
 
 package controller;
@@ -26,10 +29,10 @@ public class BrakingPrediction
     private double currentHeight;		//火箭当前高度
     
     //构造函数，传入火箭参数
-    public BrakingPrediction(SpaceCenter.Vessel vessel, SpaceCenter.Flight flight) throws RPCException
+    public BrakingPrediction(SpaceCenter.Vessel vessel, SpaceCenter.ReferenceFrame refFrame) throws RPCException
     {
     	this.vessel = vessel;
-    	this.flight = flight;
+    	this.flight = vessel.flight(refFrame);
     	updateData();
     }
     
