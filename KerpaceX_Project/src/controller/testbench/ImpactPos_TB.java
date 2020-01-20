@@ -1,4 +1,4 @@
-package controller.testbench;
+package controller.testBench;
 
 import java.io.IOException;
 

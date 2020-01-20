@@ -13,7 +13,7 @@ public class RunnableInclinationAngle implements Runnable {
 	private CelestialBody celestialBody = null;
 	private double inclinationAngle = Math.PI / 2;
 
-	RunnableInclinationAngle(Vessel vessel, CelestialBody celestialBody) {
+	public RunnableInclinationAngle(Vessel vessel, CelestialBody celestialBody) {
 		this.vessel = vessel;
 		this.celestialBody = celestialBody;
 	}
