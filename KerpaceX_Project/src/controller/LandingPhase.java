@@ -6,6 +6,9 @@
  * Edited on 2020.1.19
  * Add more parameters about the vessel to engage a more effective control strategy.
  * Add method updateData.
+ * 
+ * Edited on 2020.1.20
+ * To fit the initialization format of VerticalVelocityKeep, the module now use Vessel and ReferenceFrame to initialize
  */
 
 package controller;
@@ -15,21 +18,23 @@ import krpc.client.services.SpaceCenter;
 
 public class LandingPhase implements Runnable
 {
-	private SpaceCenter.Vessel vessel;	//飞船对象
-	private SpaceCenter.Flight flight;	//飞行对象，必须以Kerbin参考系建立
-	private double massCenterHeight;	//火箭质心高度
-	private float throttle;				//节流阀大小
-	private double mass;				//火箭总质量
-    private double thrust;				//火箭推力
-    private double thrustMassRatio;		//火箭推重比
-    private double fuelFlowRate;		//火箭燃料流量
-    private double currentVelocity;		//火箭当前速度
-    private double currentHeight;		//火箭当前高度
+	private SpaceCenter.Vessel vessel;				//飞船对象
+	private SpaceCenter.ReferenceFrame refFrame;	//参考系对象
+	private SpaceCenter.Flight flight;				//飞行对象，必须以Kerbin参考系建立
+	private double massCenterHeight;				//火箭质心高度
+	private float throttle;							//节流阀大小
+	private double mass;							//火箭总质量
+    private double thrust;							//火箭推力
+    private double thrustMassRatio;					//火箭推重比
+    private double fuelFlowRate;					//火箭燃料流量
+    private double currentVelocity;					//火箭当前速度
+    private double currentHeight;					//火箭当前高度
 	
-	public LandingPhase(SpaceCenter.Vessel vessel, SpaceCenter.Flight flight, double massCenterHeight) throws RPCException
+	public LandingPhase(SpaceCenter.Vessel vessel, SpaceCenter.ReferenceFrame refFrame, double massCenterHeight) throws RPCException
     {
     	this.vessel = vessel;
-    	this.flight = flight;
+    	this.refFrame = refFrame;
+    	this.flight = vessel.flight(refFrame);
     	this.massCenterHeight = massCenterHeight;
     }
 	
@@ -65,7 +70,7 @@ public class LandingPhase implements Runnable
 		
 			double lowestHeight;
 			boolean isLandingLegDeployed = false;
-		    BrakingPrediction brakingPrediction = new BrakingPrediction(vessel, flight);
+		    BrakingPrediction brakingPrediction = new BrakingPrediction(vessel, refFrame);
 		    do
 		    {
 		    	brakingPrediction.updateFullBrakingData();
