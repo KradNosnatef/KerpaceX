@@ -60,6 +60,7 @@ public class LandingPhase implements Runnable
 				Thread.sleep(0);
 			}
 			vessel.getControl().setSAS(true);
+			Thread.sleep(1000);
 			vessel.getControl().setSASMode(SpaceCenter.SASMode.RETROGRADE);
 			for (int i = 0; i<4; i++)
 			{
