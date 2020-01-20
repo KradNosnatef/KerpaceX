@@ -1,4 +1,4 @@
-package inclinationAngle;
+package caculator;
 
 import krpc.client.RPCException;
 import krpc.client.services.SpaceCenter.CelestialBody;
@@ -23,7 +23,7 @@ public class RunnableInclinationAngle implements Runnable {
 
 	}
 
-	RunnableInclinationAngle(Vessel vessel,CelestialBody celestialBody) {
+	public RunnableInclinationAngle(Vessel vessel,CelestialBody celestialBody) {
 		this.vessel = vessel;
 		this.celestialBody = celestialBody;
 	}
