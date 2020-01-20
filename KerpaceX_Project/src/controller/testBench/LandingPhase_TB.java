@@ -13,12 +13,12 @@ import java.io.IOException;
 public class LandingPhase_TB {
     public static void main(String[] args)
         throws IOException, RPCException, InterruptedException {
-        Connection connection = Connection.newInstance("Launch into orbit");
+        Connection connection = Connection.newInstance("LandingPhase_TB");
         SpaceCenter spaceCenter = SpaceCenter.newInstance(connection);
         SpaceCenter.Vessel vessel = spaceCenter.getActiveVessel();
         SpaceCenter.ReferenceFrame refFrame = spaceCenter.getBodies().get("Kerbin").getReferenceFrame();
         
-        LandingPhase landingPhase = new LandingPhase(vessel, refFrame, 10);
+        LandingPhase landingPhase = new LandingPhase(vessel, refFrame, 9.5);
         
         new Thread(landingPhase).start();
         
@@ -27,7 +27,18 @@ public class LandingPhase_TB {
         
         while(true) {
         	Thread.sleep(1000);
-        	impactPos.refreshImpactPos();
+        	retry: while (true)
+        	{
+		    	try
+		    	{
+		    		impactPos.refreshImpactPos();
+		    	}
+		    	catch (IOException e)
+		    	{
+		    		continue retry;
+		    	}
+        		break retry;
+        	}
         }
     }   
 }
