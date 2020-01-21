@@ -6,10 +6,12 @@ public class PIDController_TB
 {
 	public static void main(String[] args) throws InterruptedException
 	{
-		double test = 1e6;
+		double test = 190;
 		PIDController controller = new PIDController();
-		controller.setPIDParameter(0.5, 0.0, -0.1);
-		controller.setTarget(1e5);
+		controller.setPIDParameter(0.5, 0.1, -0.1);
+		controller.setRingMode(true);
+		controller.setRingRange(360, 0);
+		controller.setTarget(0);
 		while (true)
 		{
 			test += controller.run(test);
