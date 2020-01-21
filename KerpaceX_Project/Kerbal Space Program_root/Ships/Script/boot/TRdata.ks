@@ -8,5 +8,5 @@ until false{
         set w to addons:tr:impactpos.
     }
     writeJson(w,"TRdata.json").
-    wait 0.1.
+    wait 1.
 }

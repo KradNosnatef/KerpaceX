@@ -14,6 +14,7 @@ public class ImpactPos_TB {//这个tb会不断在控制台中打出保存的json落点预测信息
         while(true) {
         	Thread.sleep(1000);
         	impactPos.refreshImpactPos();
+        	System.out.println(impactPos.getImpactPosLng()+" "+impactPos.getImpactPosLat());
         }
 	}
 
