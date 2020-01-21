@@ -2,17 +2,18 @@ package caculator;
 
 import krpc.client.RPCException;
 import krpc.client.services.SpaceCenter.CelestialBody;
+import krpc.client.services.SpaceCenter.ReferenceFrame;
 import krpc.client.services.SpaceCenter.Vessel;
 
 public class RunnableInclinationAngle implements Runnable {
 	private int targetAp = 80000; // the target apogee is 80km
 	private double targetTimeTOAp = 10.0;// 目标ap倒计时默认10秒
-
 	private Thread t = null;
 	private Vessel vessel = null;
 	private CelestialBody celestialBody = null;
 	private double inclinationAngle = Math.PI / 2;
-
+	public boolean exit = false;//暂时提出来用于测试
+	
 	public RunnableInclinationAngle(Vessel vessel, CelestialBody celestialBody) {
 		this.vessel = vessel;
 		this.celestialBody = celestialBody;
@@ -45,19 +46,17 @@ public class RunnableInclinationAngle implements Runnable {
 
 	@Override
 	public void run() {
-
 		// 第1阶段
 		try {
-			while (vessel.getOrbit().getTimeToApoapsis() > targetAp) {
-				Thread.sleep(10);
+			while (vessel.getOrbit().getTimeToApoapsis() < targetTimeTOAp) {
+				Thread.sleep(1000);
 			}
 		} catch (RPCException | InterruptedException e1) {
 			e1.printStackTrace();
 		}
-
 		//第2阶段
 		float gravity = 0;
-		boolean exit = false;// when exit == true, the loop will stop, then the thread'll terminate.
+		//boolean exit = false;// when exit == true, the loop will stop, then the thread'll terminate.
 		while (!exit) {
 			try {
 				Thread.sleep(10);

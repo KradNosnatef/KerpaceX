@@ -17,8 +17,16 @@ public class RunnableInclinationAngle_TB {
         RunnableInclinationAngle runnableInclinationAngle = new RunnableInclinationAngle(vessel, celestialBody);
         runnableInclinationAngle.start();
 
+        vessel.getControl().setSAS(false);
+        vessel.getControl().setRCS(false);
+        vessel.getControl().setThrottle(1);
+        vessel.getControl().activateNextStage();
+        vessel.getAutoPilot().engage();
+        vessel.getAutoPilot().targetPitchAndHeading(90, 90);
 		while(true){
-            System.out.println(runnableInclinationAngle.getInclinationAngle());
+			if(runnableInclinationAngle.exit) break;
+            System.out.println(runnableInclinationAngle.getInclinationAngle() * 180 / Math.PI);
+            vessel.getAutoPilot().targetPitchAndHeading((float)(runnableInclinationAngle.getInclinationAngle() * 180 / Math.PI),(float)90);
 			Thread.sleep(1000);
 		}
 }
