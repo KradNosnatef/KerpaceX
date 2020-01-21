@@ -3,11 +3,11 @@
  * Author: Jeffrey Xiang
  * Date: 2020.1.18
  * 
- * Edited on 2020.1.19
+ * Modified on 2020.1.19
  * Add more parameters about the vessel to engage a more effective control strategy.
  * Add method updateData.
  * 
- * Edited on 2020.1.20
+ * Modified on 2020.1.20
  * To fit the initialization format of VerticalVelocityKeep, the module now use Vessel and ReferenceFrame to initialize
  */
 

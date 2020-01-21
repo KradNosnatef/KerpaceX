@@ -3,7 +3,7 @@
  * Author: Jeffrey Xiang
  * Date: 2020.1.20
  * 
- * Edited on 2020.1.21
+ * Modified on 2020.1.21
  * Add ring mode
  * New method setRingMode and setRingRange for ring mode
  * Numbers of result Limits change from two to one, because I think asymmetric limits are unnecessary.
