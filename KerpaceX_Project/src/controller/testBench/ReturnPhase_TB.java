@@ -18,7 +18,7 @@ public class ReturnPhase_TB {
 	        SpaceCenter.ReferenceFrame refFrame = spaceCenter.getBodies().get("Kerbin").getReferenceFrame();
 	        KSPPath.setPath(args);
 	        
-	        ReturnPhase returnPhase = new ReturnPhase(vessel);
+	        ReturnPhase returnPhase = new ReturnPhase(vessel, refFrame);
 	        
 	        while (vessel.getControl().getThrottle() != 0)
 	        {

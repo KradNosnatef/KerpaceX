@@ -3,13 +3,13 @@
  * Author: Jeffrey Xiang
  * Date: 2020.1.16
  * 
- * Edited on 2020.1.18
+ * Modified on 2020.1.18
  * this module now need Vessel and Flight to initialize instead of several fixed parameters to support prediction while braking.
  * Now, to get the prediction of the lowest height, you don't need to set the velocity and height of the vessel. (these two methods have been removed)
  * But you need to use the updateData/updateFullBrakingData method to refresh the parameters before getting the prediction. (method updateData added)
  * I reserved the old way to set parameters, now you can set then through setAllParameter method.
  * 
- * Edited on 2020.1.20
+ * Modified on 2020.1.20
  * To fit the initialization format of VerticalVelocityKeep, the module now use Vessel and ReferenceFrame to initialize
  */
 
