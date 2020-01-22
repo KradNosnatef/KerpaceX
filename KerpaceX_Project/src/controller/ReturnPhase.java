@@ -58,7 +58,7 @@ public class ReturnPhase implements Runnable
 			throttle = 1;
 			vessel.getControl().setThrottle(throttle);
 			
-	        ImpactPos impactPos = new ImpactPos();
+	        ImpactPos impactPos = new ImpactPos(vessel);
 	        impactLongitude = 0;
 	        while (impactLongitude > KSCLongitude)
 	        {

@@ -23,7 +23,7 @@ public class LandingPhase_TB {
         new Thread(landingPhase).start();
         
         KSPPath.setPath(args);
-        ImpactPos impactPos = new ImpactPos();
+        ImpactPos impactPos = new ImpactPos(vessel);
         
         while(true) {
         	Thread.sleep(1000);

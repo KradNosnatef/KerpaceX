@@ -15,7 +15,7 @@ public class RunnableDLC_TB {
 		KSPPath.setPath(args);
         Connection connection = Connection.newInstance("LandingPhase_TB");
         SpaceCenter spaceCenter = SpaceCenter.newInstance(connection);
-        RunnableDLC runnableDLC=new RunnableDLC(spaceCenter);
+        RunnableDLC runnableDLC=new RunnableDLC(spaceCenter,-1);
         runnableDLC.start();
 	}
 

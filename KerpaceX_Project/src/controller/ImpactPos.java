@@ -2,22 +2,36 @@ package controller;
 
 import java.io.IOException;
 
-import core.KosKrpcJSON;
+import krpc.client.RPCException;
+import krpc.client.services.SpaceCenter.Part;
+import krpc.client.services.SpaceCenter.Vessel;
 
 public class ImpactPos {//在实例化之后你可以refreshImpactPos以更新预计撞击点经纬度数据,然后用两个get方法获取它们
-	GeoCoordinates impactPosGeoCoordinates;
-	KosKrpcJSON jsonConnection;
-	public ImpactPos() {
-		jsonConnection=new KosKrpcJSON("Ships\\Script\\TRdata.json",GeoCoordinates.class);
+	double lat,lng;
+	Part part;
+	String slat,slng;
+	char[] c=new char[50];
+	public ImpactPos(Vessel vessel) throws RPCException {
+		part=vessel.getParts().getRoot();
 	}
-	public void refreshImpactPos() throws IOException {//注意:这个程序的有效执行频率上限是10HZ,超过10HZ的部分是无效的
-		impactPosGeoCoordinates=(GeoCoordinates) jsonConnection.getObject();//JSON通信!
-		//System.out.println(impactPosGeoCoordinates.lat+" "+impactPosGeoCoordinates.lng);//打log,可以注释掉
+	public void refreshImpactPos() throws IOException, RPCException {
+		slat=part.getTag();
+		int i=0;
+		for(i=0;;i++) {
+			if(slat.charAt(i)==',')break;
+		}
+		slat.getChars(i+1,slat.length()-1,c,0);
+		slng=String.valueOf(c);
+		slat.getChars(0,i-1,c,0);
+		slat=String.valueOf(c);
+		lat=Double.valueOf(slat);
+		lng=Double.valueOf(slng);
+		System.out.println(lat+" "+lng);
 	}
 	public double getImpactPosLat() {
-		return impactPosGeoCoordinates.lat;
+		return lat;
 	}
 	public double getImpactPosLng() {
-		return impactPosGeoCoordinates.lng;
+		return lng;
 	}
 }
