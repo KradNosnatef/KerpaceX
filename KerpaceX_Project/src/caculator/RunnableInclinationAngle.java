@@ -70,9 +70,7 @@ public class RunnableInclinationAngle implements Runnable {
 				//º∆À„«„Ω«
 				inclinationAngle = Math.asin(gravity/vessel.getAvailableThrust());
 
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (RPCException e) {
+			} catch (InterruptedException | RPCException e) {
 				e.printStackTrace();
 			}
 		}
