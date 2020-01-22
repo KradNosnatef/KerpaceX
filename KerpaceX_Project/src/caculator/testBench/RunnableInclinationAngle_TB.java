@@ -27,7 +27,9 @@ public class RunnableInclinationAngle_TB {
 			if(runnableInclinationAngle.exit) break;
             System.out.println(runnableInclinationAngle.getInclinationAngle() * 180 / Math.PI);
             vessel.getAutoPilot().targetPitchAndHeading((float)(runnableInclinationAngle.getInclinationAngle() * 180 / Math.PI),(float)90);
-			Thread.sleep(1000);
+			Thread.sleep(100);
 		}
+		vessel.getControl().setThrottle(0);
+		System.out.println("Test end");
 }
 }

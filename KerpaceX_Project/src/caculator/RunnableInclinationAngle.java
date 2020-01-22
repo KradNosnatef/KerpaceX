@@ -62,7 +62,7 @@ public class RunnableInclinationAngle implements Runnable {
 
 
 				Thread.sleep(10);
-			    if (vessel.flight(null).getMeanAltitude() >= targetAp) {
+			    if (vessel.getOrbit().getApoapsisAltitude() >= targetAp) {
 						signal();
 						exit = true;//结束循环后，线程自动终止
 					}			
