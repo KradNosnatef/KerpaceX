@@ -58,38 +58,24 @@ public class RunnableInclinationAngle implements Runnable {
 		float gravity = 0;
 		//boolean exit = false;// when exit == true, the loop will stop, then the thread'll terminate.
 		while (!exit) {
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			try {
 
-				try {
-					if (vessel.flight(null).getMeanAltitude() >= targetAp) {
+
+				Thread.sleep(10);
+			    if (vessel.flight(null).getMeanAltitude() >= targetAp) {
 						signal();
 						exit = true;//结束循环后，线程自动终止
-					}
-				} catch (RPCException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+					}			
 				//当前所受引力
-				try {
-					gravity = currentGravity(vessel.getMass(),(float)(vessel.flight(null).getMeanAltitude()+celestialBody.getEquatorialRadius()),celestialBody.getGravitationalParameter());
-				} catch (RPCException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				gravity = currentGravity(vessel.getMass(),(float)(vessel.flight(null).getMeanAltitude()+celestialBody.getEquatorialRadius()),celestialBody.getGravitationalParameter());
 				//计算倾角
-				try {
-					inclinationAngle = Math.asin(gravity/vessel.getAvailableThrust());
-				} catch (RPCException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				inclinationAngle = Math.asin(gravity/vessel.getAvailableThrust());
 
-			
+				
+			} catch (RPCException | InterruptedException e) {						
+				e.printStackTrace();
+			}
+				
 		}
 
 	}
