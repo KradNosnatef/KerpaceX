@@ -40,16 +40,22 @@ public class RunnableDLC implements Runnable {
 		}
 		PIDController yawPID=new PIDController();
 		yawPID.setTarget(0);
+		yawPID.setRingMode(true);
+		yawPID.setRingRange(180, -180);
 		yawPID.setPIDParameter(0.05, 0.02, -5);
 		yawPID.setResultLimit(1);
 		yawPID.setIntegralLimit(10);
 		PIDController pitchPID=new PIDController();
 		pitchPID.setTarget(0);
+		pitchPID.setRingMode(true);
+		pitchPID.setRingRange(180, -180);
 		pitchPID.setPIDParameter(0.05, 0.02, -5);
 		pitchPID.setResultLimit(1);
 		pitchPID.setIntegralLimit(10);
 		PIDController rollPID=new PIDController();
 		rollPID.setTarget(0);
+		rollPID.setRingMode(true);
+		rollPID.setRingRange(180, -180);
 		rollPID.setPIDParameter(0.05, 0, -0.5);
 		rollPID.setResultLimit(0.1);
 		try {

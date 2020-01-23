@@ -29,7 +29,7 @@ public class ReturnPhase implements Runnable
 	private float throttle;
 	private double impactLongitude;
 	private double impactLatitude;
-	final double KSCLongitude = -74.5575;
+	final double KSCLongitude = -74.6;
 	final double KSCLatitude = -0.0972;
 	
 	public ReturnPhase(SpaceCenter.Vessel vessel, SpaceCenter.ReferenceFrame refFrame) throws RPCException
@@ -88,6 +88,7 @@ public class ReturnPhase implements Runnable
 	        throttle = 0;
 			vessel.getControl().setThrottle(throttle);
 			vessel.getAutoPilot().disengage();
+			vessel.getControl().setRCS(false);
 			ReturnPhase_TB.setSignal(0);
 		}
 		catch (RPCException | InterruptedException e)
