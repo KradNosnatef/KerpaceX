@@ -228,7 +228,7 @@ PART
 		{
 			MakeReferenceToggle
 			{
-				actionGroup = None
+				actionGroup = Custom02
 				wasActiveBeforePartWasAdjusted = False
 			}
 			HibernateToggle
@@ -973,7 +973,7 @@ PART
 	{
 		name = KOSNameTag
 		isEnabled = True
-		nameTag = 
+		nameTag = CORE
 		stagingEnabled = True
 		EVENTS
 		{
@@ -2472,6 +2472,7 @@ PART
 	link = vernierEngine_4292609166
 	link = vernierEngine_4292609088
 	link = vernierEngine_4292609010
+	link = probeCoreOcto2.v2_4294587122
 	attN = interstage01a,Null_0_0|1.19000006|0_0|-1|0_0|1.19000006|0_0|-1|0
 	attN = interstage01b,Null_0_0|1.25|0_0|1|0_0|1.25|0_0|1|0
 	attN = interstage02a,Null_0_0|2.19000006|0_0|-1|0_0|2.19000006|0_0|-1|0
@@ -2484,7 +2485,7 @@ PART
 	attN = interstage05b,Null_0_0|5.25|0_0|1|0_0|5.25|0_0|1|0
 	attN = interstage06a,Null_0_0|6.19000006|0_0|-1|0_0|6.19000006|0_0|-1|0
 	attN = interstage06b,Null_0_0|6.25|0_0|1|0_0|6.25|0_0|1|0
-	attN = top,Null_0_0|0.219999999|0_0|1|0_0|0.219999999|0_0|1|0
+	attN = top,probeCoreOcto2.v2_4294587122_0|0.219999999|0_0|1|0_0|0.219999999|0_0|1|0
 	attN = bottom,batteryBankLarge_4293280986_0|-0.200000003|0_0|-1|0_0|-0.200000003|0_0|-1|0
 	EVENTS
 	{
@@ -2527,7 +2528,7 @@ PART
 		{
 			DeployFairingAction
 			{
-				actionGroup = Custom01
+				actionGroup = None
 				wasActiveBeforePartWasAdjusted = False
 			}
 		}
@@ -5460,9 +5461,9 @@ PART
 	PARTDATA
 	{
 		tgt = 4293120902
-		pos = -3.71112466,8.98996162,-0.0240808781
-		rot = 1.2576109E-07,-1.10917324E-06,0.977735937,-0.209845737
-		dir = -0.381572723,0.92433548,-0.00247596274
+		pos = -3.7111249,8.98996162,-0.0240809675
+		rot = 1.43444055E-07,-1.10537826E-06,0.977736056,-0.209845766
+		dir = -0.381572753,0.92433548,-0.00247597205
 		col = collider
 	}
 	MODULE
@@ -5583,9 +5584,9 @@ PART
 	PARTDATA
 	{
 		tgt = 4293120902
-		pos = -3.71111608,8.98993111,-0.02407231
-		rot = -5.68359013E-08,-1.85846648E-06,0.977736592,-0.209845856
-		dir = -0.381573081,0.924335361,-0.00247508986
+		pos = -3.71111679,8.98993111,-0.0240716543
+		rot = -6.99000253E-08,-1.86127068E-06,0.977736771,-0.209845901
+		dir = -0.38157317,0.924335361,-0.00247502234
 		col = collider
 	}
 	MODULE
@@ -5706,9 +5707,9 @@ PART
 	PARTDATA
 	{
 		tgt = 4293120902
-		pos = -3.71113086,8.98996449,-0.0240803268
-		rot = 5.46626424E-08,-1.40847385E-06,0.977735817,-0.209845603
-		dir = -0.38157317,0.924335301,-0.00247590477
+		pos = -3.7111311,8.98996449,-0.0240803864
+		rot = 7.23456282E-08,-1.40467876E-06,0.977735937,-0.209845632
+		dir = -0.3815732,0.924335301,-0.00247591105
 		col = collider
 	}
 	MODULE
@@ -5829,9 +5830,9 @@ PART
 	PARTDATA
 	{
 		tgt = 4293120902
-		pos = -3.71112251,8.98993683,-0.0240722168
-		rot = -3.69347184E-08,-1.99621604E-06,0.977736473,-0.209845856
-		dir = -0.381573439,0.924335182,-0.00247507822
+		pos = -3.71112347,8.98993683,-0.0240715612
+		rot = -4.99988317E-08,-1.99902024E-06,0.977736652,-0.209845886
+		dir = -0.381573558,0.924335182,-0.00247501093
 		col = collider
 	}
 	MODULE
@@ -5952,9 +5953,9 @@ PART
 	PARTDATA
 	{
 		tgt = 4293278166
-		pos = -0.0655448437,9.65889359,0.00858110189
-		rot = -8.62792682E-09,-0.409176499,-0.576694369,0.707107842
-		dir = -0.00678579882,0.999976575,0.000888393784
+		pos = -0.0655448437,9.65889359,0.00858108699
+		rot = -8.62792682E-09,-0.409176528,-0.576694429,0.707107902
+		dir = -0.00678579882,0.999976575,0.000888392271
 		col = AirBRCOL
 	}
 	MODULE
@@ -6076,7 +6077,7 @@ PART
 	{
 		tgt = 4293278086
 		pos = -0.065553166,9.6588974,0.00858256593
-		rot = -8.62792326E-09,-0.40917635,-0.576694131,0.70710808
+		rot = -8.62792415E-09,-0.409176379,-0.576694191,0.70710814
 		dir = -0.00678665796,0.999976575,0.000888545008
 		col = AirBRCOL
 	}
@@ -6198,9 +6199,9 @@ PART
 	PARTDATA
 	{
 		tgt = 4293278014
-		pos = -0.06553936,9.6588974,0.0085842479
-		rot = 1.24454971E-08,-0.409176588,-0.576694012,0.707108021
-		dir = -0.00678522838,0.999976575,0.000888719165
+		pos = -0.06553936,9.6588974,0.00858427025
+		rot = 1.24454971E-08,-0.409176618,-0.576694071,0.70710808
+		dir = -0.00678522838,0.999976575,0.000888721435
 		col = AirBRCOL
 	}
 	MODULE
@@ -6322,7 +6323,7 @@ PART
 	{
 		tgt = 4294495212
 		pos = -0.0655476823,9.65889359,0.00858258083
-		rot = 1.24455033E-08,-0.40917632,-0.576694131,0.707108021
+		rot = 1.24455024E-08,-0.40917635,-0.57669425,0.70710808
 		dir = -0.00678609265,0.999976575,0.000888546929
 		col = AirBRCOL
 	}
@@ -8864,5 +8865,344 @@ PART
 		UPGRADESAPPLIED
 		{
 		}
+	}
+}
+PART
+{
+	part = probeCoreOcto2.v2_4294587122
+	partName = Part
+	persistentId = 201145073
+	pos = -0.0445908606,36.8117142,0.0900749564
+	attPos = 0,0,0
+	attPos0 = 0,0.28106308,0
+	rot = 0,0,-1,0
+	attRot = 0,0,-0.99999994,0
+	attRot0 = 0,0,-1,0
+	mir = 1,1,1
+	symMethod = Radial
+	autostrutMode = Off
+	rigidAttachment = False
+	istg = -1
+	resPri = 0
+	dstg = 1
+	sidx = -1
+	sqor = -1
+	sepI = -1
+	attm = 0
+	sameVesselCollision = False
+	modCost = 0
+	modMass = 0
+	modSize = 0,0,0
+	attN = bottom,Null_0_0|-0.0610621013|0_0|-1|0_0|-0.0610621013|0_0|-1|0
+	attN = top,fairingSize2_4293594720_0|0.0610621013|0_0|1|0_0|0.0610621013|0_0|1|0
+	EVENTS
+	{
+	}
+	ACTIONS
+	{
+		ToggleSameVesselInteraction
+		{
+			actionGroup = None
+			wasActiveBeforePartWasAdjusted = False
+		}
+		SetSameVesselInteraction
+		{
+			actionGroup = None
+			wasActiveBeforePartWasAdjusted = False
+		}
+		RemoveSameVesselInteraction
+		{
+			actionGroup = None
+			wasActiveBeforePartWasAdjusted = False
+		}
+	}
+	PARTDATA
+	{
+	}
+	MODULE
+	{
+		name = ModuleCommand
+		isEnabled = True
+		hibernation = False
+		hibernateOnWarp = False
+		activeControlPointName = _default
+		stagingEnabled = True
+		EVENTS
+		{
+		}
+		ACTIONS
+		{
+			MakeReferenceToggle
+			{
+				actionGroup = Custom01
+				wasActiveBeforePartWasAdjusted = False
+			}
+			HibernateToggle
+			{
+				actionGroup = None
+				wasActiveBeforePartWasAdjusted = False
+			}
+		}
+		UPGRADESAPPLIED
+		{
+		}
+	}
+	MODULE
+	{
+		name = ModuleSAS
+		isEnabled = True
+		standaloneToggle = True
+		stagingEnabled = True
+		EVENTS
+		{
+		}
+		ACTIONS
+		{
+		}
+		UPGRADESAPPLIED
+		{
+		}
+	}
+	MODULE
+	{
+		name = ModuleKerbNetAccess
+		isEnabled = True
+		stagingEnabled = True
+		EVENTS
+		{
+		}
+		ACTIONS
+		{
+			OpenKerbNetAction
+			{
+				actionGroup = None
+				wasActiveBeforePartWasAdjusted = False
+			}
+		}
+		UPGRADESAPPLIED
+		{
+		}
+	}
+	MODULE
+	{
+		name = ModuleDataTransmitter
+		isEnabled = True
+		xmitIncomplete = False
+		stagingEnabled = True
+		EVENTS
+		{
+		}
+		ACTIONS
+		{
+			StartTransmissionAction
+			{
+				actionGroup = None
+				active = False
+				wasActiveBeforePartWasAdjusted = False
+			}
+		}
+		UPGRADESAPPLIED
+		{
+		}
+	}
+	MODULE
+	{
+		name = FMRS_PM
+		isEnabled = True
+		stagingEnabled = True
+		MM_DYNAMIC = true
+		parent_vessel = 0
+		EVENTS
+		{
+		}
+		ACTIONS
+		{
+		}
+		UPGRADESAPPLIED
+		{
+		}
+	}
+	MODULE
+	{
+		name = MechJebCore
+		isEnabled = True
+		running = True
+		stagingEnabled = True
+		EVENTS
+		{
+		}
+		ACTIONS
+		{
+			OnOrbitProgradeAction
+			{
+				actionGroup = None
+				wasActiveBeforePartWasAdjusted = False
+			}
+			OnOrbitRetrogradeAction
+			{
+				actionGroup = None
+				wasActiveBeforePartWasAdjusted = False
+			}
+			OnOrbitNormalAction
+			{
+				actionGroup = None
+				wasActiveBeforePartWasAdjusted = False
+			}
+			OnOrbitAntinormalAction
+			{
+				actionGroup = None
+				wasActiveBeforePartWasAdjusted = False
+			}
+			OnOrbitRadialInAction
+			{
+				actionGroup = None
+				wasActiveBeforePartWasAdjusted = False
+			}
+			OnOrbitRadialOutAction
+			{
+				actionGroup = None
+				wasActiveBeforePartWasAdjusted = False
+			}
+			OnKillRotationAction
+			{
+				actionGroup = None
+				wasActiveBeforePartWasAdjusted = False
+			}
+			OnDeactivateSmartASSAction
+			{
+				actionGroup = None
+				wasActiveBeforePartWasAdjusted = False
+			}
+			OnLandsomewhereAction
+			{
+				actionGroup = None
+				wasActiveBeforePartWasAdjusted = False
+			}
+			OnLandTargetAction
+			{
+				actionGroup = None
+				wasActiveBeforePartWasAdjusted = False
+			}
+			OnPanicAction
+			{
+				actionGroup = None
+				wasActiveBeforePartWasAdjusted = False
+			}
+			OnTranslatronOffAction
+			{
+				actionGroup = None
+				wasActiveBeforePartWasAdjusted = False
+			}
+			OnTranslatronKeepVertAction
+			{
+				actionGroup = None
+				wasActiveBeforePartWasAdjusted = False
+			}
+			OnTranslatronZeroSpeedAction
+			{
+				actionGroup = None
+				wasActiveBeforePartWasAdjusted = False
+			}
+			OnTranslatronPlusOneSpeedAction
+			{
+				actionGroup = None
+				wasActiveBeforePartWasAdjusted = False
+			}
+			OnTranslatronMinusOneSpeedAction
+			{
+				actionGroup = None
+				wasActiveBeforePartWasAdjusted = False
+			}
+			OnTranslatronToggleHSAction
+			{
+				actionGroup = None
+				wasActiveBeforePartWasAdjusted = False
+			}
+			OnAscentAPToggleAction
+			{
+				actionGroup = None
+				wasActiveBeforePartWasAdjusted = False
+			}
+		}
+		UPGRADESAPPLIED
+		{
+		}
+	}
+	MODULE
+	{
+		name = KOSNameTag
+		isEnabled = True
+		nameTag = 
+		stagingEnabled = True
+		EVENTS
+		{
+		}
+		ACTIONS
+		{
+		}
+		UPGRADESAPPLIED
+		{
+		}
+	}
+	MODULE
+	{
+		name = TrajectoriesVesselSettings
+		isEnabled = True
+		Initialized = False
+		EntryAngle = 3.1415926535897931
+		EntryHorizon = False
+		HighAngle = 3.1415926535897931
+		HighHorizon = False
+		LowAngle = 3.1415926535897931
+		LowHorizon = False
+		GroundAngle = 3.1415926535897931
+		GroundHorizon = False
+		ProgradeEntry = False
+		RetrogradeEntry = True
+		TargetBody = 
+		TargetPosition_x = 0
+		TargetPosition_y = 0
+		TargetPosition_z = 0
+		ManualTargetTxt = 
+		stagingEnabled = True
+		EVENTS
+		{
+		}
+		ACTIONS
+		{
+		}
+		UPGRADESAPPLIED
+		{
+		}
+	}
+	MODULE
+	{
+		name = ModuleTripLogger
+		isEnabled = True
+		stagingEnabled = True
+		EVENTS
+		{
+		}
+		ACTIONS
+		{
+		}
+		Log
+		{
+			flight = 0
+		}
+		UPGRADESAPPLIED
+		{
+		}
+	}
+	RESOURCE
+	{
+		name = ElectricCharge
+		amount = 5
+		maxAmount = 5
+		flowState = True
+		isTweakable = True
+		hideFlow = False
+		isVisible = True
+		flowMode = Both
 	}
 }
