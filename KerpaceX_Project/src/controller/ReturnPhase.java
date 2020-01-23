@@ -61,7 +61,7 @@ public class ReturnPhase implements Runnable
 	        impactLongitude = 0;
 	        while (impactLongitude > KSCLongitude)
 	        {
-	        	vessel.getAutoPilot().setTargetHeading((float) (Math.atan2(impactLongitude - KSCLongitude, impactLatitude - KSCLatitude)));
+	        	vessel.getAutoPilot().setTargetHeading((float) (Math.atan2(KSCLongitude - impactLongitude , KSCLatitude - impactLatitude) / Math.PI * 180));
 	        	if (impactLongitude - KSCLongitude > 1)
 	        		throttle = 1;
 	        	else if (impactLongitude - KSCLongitude > 0.1)
