@@ -32,6 +32,12 @@ public class RunnableDLC implements Runnable {
 		this.engageDirection=engageDirection;
 	}
 	public void run() {
+		try {
+			control.setActionGroup(1, true);
+		} catch (RPCException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		PIDController yawPID=new PIDController();
 		yawPID.setTarget(0);
 		yawPID.setPIDParameter(0.05, 0.02, -5);
