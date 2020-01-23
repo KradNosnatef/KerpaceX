@@ -17,8 +17,12 @@ import org.javatuples.Triplet;
 import krpc.client.RPCException;
 import krpc.client.services.SpaceCenter;
 
+import controller.testBench.ReturnPhase_TB;
+
 public class ReturnPhase implements Runnable
 {
+	Thread thread;
+	String threadName = "Return Phase";
 	private SpaceCenter.Vessel vessel;				//飞船对象
 	private SpaceCenter.ReferenceFrame refFrame;	//参考系对象
 	private SpaceCenter.Flight flight;				//飞行对象，必须以Kerbin参考系建立
@@ -44,11 +48,6 @@ public class ReturnPhase implements Runnable
 			vessel.getControl().setRCS(true);
 			vessel.getAutoPilot().engage();
 			vessel.getAutoPilot().setStoppingTime(new Triplet<Double, Double, Double>(256d, 256d, 256d));
-			vessel.getAutoPilot().targetPitchAndHeading(90, -90);
-			while (vessel.getAutoPilot().getError() > 45)
-			{
-				Thread.sleep(0);
-			}
 			vessel.getAutoPilot().targetPitchAndHeading(0, -90);
 			while (vessel.getAutoPilot().getError() > 30)
 			{
@@ -62,9 +61,13 @@ public class ReturnPhase implements Runnable
 	        impactLongitude = 0;
 	        while (impactLongitude > KSCLongitude)
 	        {
-	        	vessel.getAutoPilot().setTargetHeading((float) (-90 + -25 * (impactLatitude - KSCLatitude)));
-	        	throttle = (float) (1 * (impactLongitude - KSCLongitude));
-	        	throttle = throttle > 1 ? 1 : throttle < 0 ? 0 : throttle;
+	        	vessel.getAutoPilot().setTargetHeading((float) (Math.atan2(impactLongitude - KSCLongitude, impactLatitude - KSCLatitude)));
+	        	if (impactLongitude - KSCLongitude > 1)
+	        		throttle = 1;
+	        	else if (impactLongitude - KSCLongitude > 0.1)
+	        		throttle = 0.1f;
+	        	else
+	        		throttle = 0.01f;
 	        	vessel.getControl().setThrottle(throttle);
 	        	Thread.sleep(20);
 	        	retry: while (true)
@@ -85,10 +88,19 @@ public class ReturnPhase implements Runnable
 	        throttle = 0;
 			vessel.getControl().setThrottle(throttle);
 			vessel.getAutoPilot().disengage();
+			ReturnPhase_TB.setSignal(0);
 		}
 		catch (RPCException | InterruptedException e)
 		{
 			e.printStackTrace();
 		}	
+	}
+	
+	public void start()
+	{
+		if(thread==null) {
+			thread=new Thread(this,threadName);
+			thread.start();
+		}
 	}
 }
