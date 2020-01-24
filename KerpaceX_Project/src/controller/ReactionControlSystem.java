@@ -65,7 +65,7 @@ public class ReactionControlSystem
 		 engine[code].setThrustLimit(thrust);
 	}
 	
-	public void setAllEngines() throws RPCException
+	private void setAllEngines() throws RPCException
 	{
 		float thrust;
 		for (int i = 0; i < 8; i++)
@@ -75,7 +75,7 @@ public class ReactionControlSystem
 		}
 	}
 	
-	public void calculateEngineThrottles()
+	private void calculateEngineThrottles()
 	{
 		for (int i = 0; i < 8; i++)
 		{
