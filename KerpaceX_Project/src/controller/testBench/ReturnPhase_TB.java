@@ -27,7 +27,7 @@ public class ReturnPhase_TB {
 	        KSPPath.setPath(args);
 	        
 	        ReturnPhase returnPhase = new ReturnPhase(vessel, refFrame);
-	        RunnableDLC runnableDLC=new RunnableDLC(spaceCenter,-1);
+	        LandingPhase landingPhase=new LandingPhase(vessel, refFrame, 9.5);
 	        
 	        while (vessel.getControl().getThrottle() != 0)
 	        {
@@ -40,7 +40,7 @@ public class ReturnPhase_TB {
 	        	Thread.sleep(0);
 	        }
 	        
-	        runnableDLC.start();
+	        landingPhase.start();
 	        
 	        //LandingPhase landingPhase = new LandingPhase(vessel, refFrame, 9.5);
 	        //new Thread(landingPhase).start();

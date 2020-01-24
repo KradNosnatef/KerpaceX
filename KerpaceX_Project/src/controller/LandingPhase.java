@@ -18,6 +18,8 @@ import krpc.client.services.SpaceCenter;
 
 public class LandingPhase implements Runnable
 {
+	Thread thread;
+	String threadName = "Landing Phase";
 	private SpaceCenter.Vessel vessel;				//飞船对象
 	private SpaceCenter.ReferenceFrame refFrame;	//参考系对象
 	private SpaceCenter.Flight flight;				//飞行对象，必须以Kerbin参考系建立
@@ -113,6 +115,14 @@ public class LandingPhase implements Runnable
 		catch (RPCException | InterruptedException e)
 		{
 			e.printStackTrace();
+		}
+	}
+	
+	public void start()
+	{
+		if(thread==null) {
+			thread=new Thread(this,threadName);
+			thread.start();
 		}
 	}
 }
