@@ -8,7 +8,6 @@
 &emsp;目标飞船对象。
 
 ---
-
 ##### public void enable()
 ###### Function
 &emsp;使能RCS控制。
@@ -22,9 +21,8 @@
 ---
 ##### public void setEngine(int code, float thrust)
 ###### Function
-&emsp;设置目标编号的引擎的推力。
+&emsp;设置目标编号的引擎的推力。<br/>
 &emsp;此方法为内部调用的基础方法，非需要自定义动作，不建议使用。
-
 ###### Parameter
 &emsp;code: 引擎编号。
 &emsp;thrust: 引擎推力，0 ~ 1。
@@ -69,10 +67,9 @@
 &emsp;strength: 推进强度，-1 ~ 1；若为负值，为以指向西的角速度推进。
 
 ---
-
+<br/>
 
 ### public class PropulsionSystem
-
 ---
 ##### public PropulsionSystem(SpaceCenter.Vessel vessel)
 ###### Function
