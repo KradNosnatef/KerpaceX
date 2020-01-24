@@ -24,7 +24,7 @@
 &emsp;设置目标编号的引擎的推力。<br/>
 &emsp;此方法为内部调用的基础方法，非需要自定义动作，不建议使用。
 ###### Parameter
-&emsp;code: 引擎编号。
+&emsp;code: 引擎编号。<br/>
 &emsp;thrust: 引擎推力，0 ~ 1。
 
 ---
