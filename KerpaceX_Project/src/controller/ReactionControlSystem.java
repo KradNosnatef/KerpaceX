@@ -36,7 +36,7 @@ public class ReactionControlSystem
 		for (int i = 0; i < 8; i++)
 		{
 			engine[i].setActive(false);
-			engine[i].setGimbalLocked(false);
+			engine[i].setGimbalLocked(true);
 			engine[i].setGimbalLimit(0);
 			engine[i].setThrustLimit(0);
 			engineThrottle[i] = 0;
