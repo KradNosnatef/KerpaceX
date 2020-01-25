@@ -9,6 +9,9 @@
  * 
  * Modified on 2020.1.20
  * To fit the initialization format of VerticalVelocityKeep, the module now use Vessel and ReferenceFrame to initialize
+ * 
+ * Modified on 2020.1.25
+ * Fit with the application of new engine system.
  */
 
 package controller;
@@ -57,6 +60,9 @@ public class LandingPhase implements Runnable
 		//µÈ´ýÏÂÂä
 		try
 		{
+			vessel.getControl().setThrottle(1);
+			PropulsionSystem PS = new PropulsionSystem(vessel);
+			ReactionControlSystem RCS = new ReactionControlSystem(vessel);
 			while (flight.getVerticalSpeed() > 0)
 			{
 				Thread.sleep(0);
@@ -67,7 +73,7 @@ public class LandingPhase implements Runnable
 			for (int i = 0; i<4; i++)
 			{
 				vessel.getParts().withTag("airbrake").get(i).getControlSurface().setDeployed(true);
-				vessel.getParts().withTag("positionEngine").get(i).getEngine().setActive(false);
+				PS.disableAuxiliaryEngines();
 			}
 			throttle = 1;
 		
@@ -81,7 +87,7 @@ public class LandingPhase implements Runnable
 		    	Thread.sleep(0);
 		    }
 		    while (lowestHeight > 0 || flight.getSurfaceAltitude() > 4000);
-		    vessel.getControl().setThrottle(throttle);
+		    PS.setAllEngineThrottle(throttle);
 		    
 		    Thread.sleep(100);
 		    
@@ -97,11 +103,11 @@ public class LandingPhase implements Runnable
 		    	Dp = Dp > 1e-2 ? 1e-2 : Dp < -1e-2 ? -1e-2 : Dp;
 		    	throttle += Dp;
 		    	throttle = throttle < 0.5f ? 0.5f : throttle > 1 ? 1 : throttle;
-		    	vessel.getControl().setThrottle(throttle);
+		    	PS.setAllEngineThrottle(throttle);
 		    	Thread.sleep(0);
 		    	if (!isLandingLegDeployed && lowestHeightReachingTime < 6)
 		    	{
-		    		for (int i = 0; i<4; i++)
+		    		for (int i = 0; i < 4; i++)
 		    			vessel.getParts().withTag("landingLeg").get(i).getControlSurface().setDeployed(true);
 		    	}
 		    	if (isSASEnabled && currentHeight < massCenterHeight + 5) vessel.getControl().setSAS(false);
@@ -110,7 +116,7 @@ public class LandingPhase implements Runnable
 		    }
 		    
 		    throttle = 0;
-		    vessel.getControl().setThrottle(throttle);
+		    PS.setAllEngineThrottle(throttle);
 		}
 		catch (RPCException | InterruptedException e)
 		{

@@ -20,13 +20,9 @@ public class PropulsionSystem
 		this.vessel = vessel;
 		mainEngine = this.vessel.getParts().withTag("mainEngine").get(0).getEngine();
 		auxiliaryEngine = new SpaceCenter.Engine[4];
-		mainEngine.setActive(false);
-		mainEngine.setThrustLimit(0);
 		for (int i = 0; i < 4; i++)
 		{
 			auxiliaryEngine[i] = this.vessel.getParts().withTag("auxiliaryEngine").get(i).getEngine();
-			auxiliaryEngine[i].setActive(false);
-			auxiliaryEngine[i].setThrustLimit(0);
 		}
 	}
 	

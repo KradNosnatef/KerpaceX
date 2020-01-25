@@ -6,6 +6,10 @@
  * Modified on 2020.1.21
  * Add ReferenceFrame to the initialization parameters.
  * This Module Can Adjust latitude for launch on the equator now.
+ * 
+ * Modified on 2020.1.25
+ * Fit with the application of new engine system.
+ * Can adjust impact position precisely now.
  */
 
 package controller;
@@ -29,7 +33,7 @@ public class ReturnPhase implements Runnable
 	private float throttle;
 	private double impactLongitude;
 	private double impactLatitude;
-	final double KSCLongitude = -74.6;
+	final double KSCLongitude = -74.65;
 	final double KSCLatitude = -0.0972;
 	
 	public ReturnPhase(SpaceCenter.Vessel vessel, SpaceCenter.ReferenceFrame refFrame) throws RPCException
@@ -43,33 +47,38 @@ public class ReturnPhase implements Runnable
 	{
 		try
 		{
-			throttle = 0;
-			vessel.getControl().setThrottle(throttle);
-			vessel.getControl().setRCS(true);
+			vessel.getControl().setThrottle(1);
+			PropulsionSystem PS = new PropulsionSystem(vessel);
+	        ReactionControlSystem RCS = new ReactionControlSystem(vessel);
+	        throttle = 0;
+			PS.setAllEngineThrottle(throttle);
+			vessel.getControl().activateNextStage();
+			RCS.setForward(-1);
+			Thread.sleep(3000);
+			RCS.setForward(0);
+			RCS.setYaw(-1);
 			vessel.getAutoPilot().engage();
-			vessel.getAutoPilot().setStoppingTime(new Triplet<Double, Double, Double>(256d, 256d, 256d));
-			vessel.getAutoPilot().targetPitchAndHeading(0, -90);
-			while (vessel.getAutoPilot().getError() > 30)
+			vessel.getAutoPilot().setTargetHeading(-90);
+			vessel.getAutoPilot().setTargetPitch(0);
+			vessel.getAutoPilot().setTargetRoll(0);
+			while (vessel.getAutoPilot().getPitchError() > 15 || vessel.getAutoPilot().getHeadingError() > 15)
 			{
 				Thread.sleep(0);
 			}
-			vessel.getAutoPilot().setStoppingTime(new Triplet<Double, Double, Double>(0.5, 0.5, 0.5));
+			RCS.setYaw(0);
 			throttle = 1;
-			vessel.getControl().setThrottle(throttle);
+			PS.setAllEngineThrottle(throttle);
 			
 	        ImpactPos impactPos = new ImpactPos(vessel);
 	        impactLongitude = 0;
 	        while (impactLongitude > KSCLongitude)
 	        {
-	        	vessel.getAutoPilot().setTargetHeading((float) (Math.atan2(KSCLongitude - impactLongitude , KSCLatitude - impactLatitude) / Math.PI * 180));
 	        	if (impactLongitude - KSCLongitude > 1)
 	        		throttle = 1;
-	        	else if (impactLongitude - KSCLongitude > 0.1)
-	        		throttle = 0.1f;
 	        	else
-	        		throttle = 0.01f;
-	        	vessel.getControl().setThrottle(throttle);
-	        	Thread.sleep(20);
+	        		throttle = 0.1f;
+	        	PS.setAllEngineThrottle(throttle);
+	        	Thread.sleep(50);
 	        	retry: while (true)
 	        	{
 			    	try
@@ -86,9 +95,37 @@ public class ReturnPhase implements Runnable
 	        	impactLatitude = impactPos.getImpactPosLat();
 	        }
 	        throttle = 0;
-			vessel.getControl().setThrottle(throttle);
+	        PS.setAllEngineThrottle(throttle);
+	        PIDController latitudePID = new PIDController();
+			PIDController longitudePID = new PIDController();
+			latitudePID.setPIDParameter(100,0,0);
+			latitudePID.setResultLimit(1);
+			latitudePID.setTarget(KSCLatitude);
+			longitudePID.setPIDParameter(100,0,0);
+			longitudePID.setResultLimit(1);
+			longitudePID.setTarget(KSCLongitude);
+			while (Math.abs(impactLatitude - KSCLatitude) > 1e-4 || Math.abs(impactLongitude - KSCLongitude) > 1e-4)
+			{
+				RCS.setRight((float) latitudePID.run(impactLatitude));
+				RCS.setForward((float) -longitudePID.run(impactLongitude));
+				Thread.sleep(50);
+				retry: while (true)
+	        	{
+			    	try
+			    	{
+			    		impactPos.refreshImpactPos();
+			    	}
+			    	catch (IOException e)
+			    	{
+			    		continue retry;
+			    	}
+	        		break retry;
+	        	}
+	        	impactLongitude = impactPos.getImpactPosLng();
+	        	impactLatitude = impactPos.getImpactPosLat();
+			}
 			vessel.getAutoPilot().disengage();
-			vessel.getControl().setRCS(false);
+			RCS.disable();
 			ReturnPhase_TB.setSignal(0);
 		}
 		catch (RPCException | InterruptedException e)

@@ -50,7 +50,7 @@ public class BrakingPrediction
     public void updateData() throws RPCException
     {
     	mass = vessel.getMass();
-        thrust = vessel.getThrust();
+        thrust = vessel.getParts().withTag("mainEngine").get(0).getEngine().getThrust();
         fuelFlowRate = thrust / vessel.getSpecificImpulse() / 9.82;
         currentVelocity = flight.getVerticalSpeed();
         currentHeight = flight.getSurfaceAltitude();
@@ -60,7 +60,7 @@ public class BrakingPrediction
     public void updateFullBrakingData() throws RPCException
     {
     	mass = vessel.getMass();
-        thrust = vessel.getAvailableThrust();
+        thrust = vessel.getParts().withTag("mainEngine").get(0).getEngine().getMaxThrust();
         fuelFlowRate = thrust / vessel.getSpecificImpulse() / 9.82;
         currentVelocity = flight.getVerticalSpeed();
         currentHeight = flight.getSurfaceAltitude();

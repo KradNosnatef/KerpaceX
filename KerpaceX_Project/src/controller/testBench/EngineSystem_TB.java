@@ -23,7 +23,7 @@ public class EngineSystem_TB
 	     
 	     Thread.sleep(10000);
 	     
-	     PS.enableMainEngine();
+	     /*PS.enableMainEngine();
 	     Thread.sleep(1000);
 	     PS.setMainEngineThrottle(1);
 	     Thread.sleep(1000);
@@ -56,7 +56,7 @@ public class EngineSystem_TB
 	     PS.setAllEngineThrottle(0);
 	     Thread.sleep(1000);
 	     PS.disableAllEngines();
-	     Thread.sleep(1000);
+	     Thread.sleep(1000);*/
 	     
 	     RCS.enable();
 	     Thread.sleep(1000);
@@ -70,40 +70,40 @@ public class EngineSystem_TB
 	     RCS.setForward(0);
 	     Thread.sleep(1000);
 	     
-	     RCS.setNorth(1);
+	     RCS.setUp(1);
+	     Thread.sleep(10000);
+	     RCS.setUp(0);
 	     Thread.sleep(1000);
-	     RCS.setNorth(0);
+	     RCS.setUp(-1);
 	     Thread.sleep(1000);
-	     RCS.setNorth(-1);
-	     Thread.sleep(1000);
-	     RCS.setNorth(0);
-	     Thread.sleep(1000);
-	     
-	     RCS.setEast(1);
-	     Thread.sleep(1000);
-	     RCS.setEast(0);
-	     Thread.sleep(1000);
-	     RCS.setEast(-1);
-	     Thread.sleep(1000);
-	     RCS.setEast(0);
+	     RCS.setUp(0);
 	     Thread.sleep(1000);
 	     
-	     RCS.setNorthRotation(1);
+	     RCS.setRight(1);
 	     Thread.sleep(1000);
-	     RCS.setNorthRotation(0);
+	     RCS.setRight(0);
 	     Thread.sleep(1000);
-	     RCS.setNorthRotation(-1);
+	     RCS.setRight(-1);
 	     Thread.sleep(1000);
-	     RCS.setNorthRotation(0);
+	     RCS.setRight(0);
 	     Thread.sleep(1000);
 	     
-	     RCS.setEastRotation(1);
+	     RCS.setPitch(1);
 	     Thread.sleep(1000);
-	     RCS.setEastRotation(0);
+	     RCS.setPitch(0);
 	     Thread.sleep(1000);
-	     RCS.setEastRotation(-1);
+	     RCS.setPitch(-1);
 	     Thread.sleep(1000);
-	     RCS.setEastRotation(0);
+	     RCS.setPitch(0);
+	     Thread.sleep(1000);
+	     
+	     RCS.setYaw(1);
+	     Thread.sleep(1000);
+	     RCS.setYaw(0);
+	     Thread.sleep(1000);
+	     RCS.setYaw(-1);
+	     Thread.sleep(1000);
+	     RCS.setYaw(0);
 	     Thread.sleep(1000);
 	     
 	     RCS.disable();

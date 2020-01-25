@@ -2,9 +2,14 @@
  * ReactionControlSystem.java
  * Author: Jeffrey Xiang
  * Date: 2020.1.24
+ * 
+ * Modified on 2020.1.25
+ * Add some physical calculation to make translation without rotation by adjust the thrust of the two engine from the same direction 
  */
 
 package controller;
+
+import org.javatuples.Triplet;
 
 import krpc.client.RPCException;
 import krpc.client.services.SpaceCenter;
@@ -13,33 +18,35 @@ public class ReactionControlSystem
 {
 	private SpaceCenter.Vessel vessel;
 	private SpaceCenter.Engine[] engine;
+	private Triplet<Double, Double, Double>[] engineUnitTorque;
+	private double[] engineUnitTorqueModule;
 	private float[] engineThrottle;
 	private float forwardStrength;
-	private float northStrength;
-	private float eastStrength;
-	private float northRotationStrength;
-	private float eastRotationStrength;
+	private float upStrength;
+	private float rightStrength;
+	private float pitchStrength;
+	private float yawStrength;
 	
+	@SuppressWarnings("unchecked")
 	public ReactionControlSystem(SpaceCenter.Vessel vessel) throws RPCException
 	{
 		this.vessel = vessel;
 		engine = new SpaceCenter.Engine[8];
 		engineThrottle = new float[8];
-		engine[0] = this.vessel.getParts().withTag("RCS_U_N").get(0).getEngine();
-		engine[1] = this.vessel.getParts().withTag("RCS_U_E").get(0).getEngine();
-		engine[2] = this.vessel.getParts().withTag("RCS_U_S").get(0).getEngine();
-		engine[3] = this.vessel.getParts().withTag("RCS_U_W").get(0).getEngine();
-		engine[4] = this.vessel.getParts().withTag("RCS_D_N").get(0).getEngine();
-		engine[5] = this.vessel.getParts().withTag("RCS_D_E").get(0).getEngine();
-		engine[6] = this.vessel.getParts().withTag("RCS_D_S").get(0).getEngine();
-		engine[7] = this.vessel.getParts().withTag("RCS_D_W").get(0).getEngine();
+		engineUnitTorque = new Triplet[8];
+		engineUnitTorqueModule = new double[8];
+		engine[0] = this.vessel.getParts().withTag("RCS_F_D").get(0).getEngine();
+		engine[1] = this.vessel.getParts().withTag("RCS_F_R").get(0).getEngine();
+		engine[2] = this.vessel.getParts().withTag("RCS_F_U").get(0).getEngine();
+		engine[3] = this.vessel.getParts().withTag("RCS_F_L").get(0).getEngine();
+		engine[4] = this.vessel.getParts().withTag("RCS_B_D").get(0).getEngine();
+		engine[5] = this.vessel.getParts().withTag("RCS_B_R").get(0).getEngine();
+		engine[6] = this.vessel.getParts().withTag("RCS_B_U").get(0).getEngine();
+		engine[7] = this.vessel.getParts().withTag("RCS_B_L").get(0).getEngine();
 		for (int i = 0; i < 8; i++)
 		{
-			engine[i].setActive(false);
-			engine[i].setGimbalLocked(true);
-			engine[i].setGimbalLimit(0);
-			engine[i].setThrustLimit(0);
 			engineThrottle[i] = 0;
+			engineUnitTorqueModule[i] = 1;
 		}
 	}
 	
@@ -75,12 +82,14 @@ public class ReactionControlSystem
 		}
 	}
 	
-	private void calculateEngineThrottles()
+	private void calculateEngineThrottles() throws RPCException
 	{
 		for (int i = 0; i < 8; i++)
 		{
 			engineThrottle[i] = 0;
 		}
+		
+		calulateEngineUnitTorque();
 		
 		if (forwardStrength > 0)
 		{
@@ -97,48 +106,74 @@ public class ReactionControlSystem
 			engineThrottle[3] -= forwardStrength;
 		}
 		
-		if (northStrength > 0)
+		if (upStrength > 0)
 		{
-			engineThrottle[2] += northStrength;
-			engineThrottle[6] += northStrength;
+			engineThrottle[0] += upStrength * 2 * engineUnitTorqueModule[4] / (engineUnitTorqueModule[0] + engineUnitTorqueModule[4]);
+			engineThrottle[4] += upStrength * 2 * engineUnitTorqueModule[0] / (engineUnitTorqueModule[0] + engineUnitTorqueModule[4]);
 		}
 		else
 		{
-			engineThrottle[0] -= northStrength;
-			engineThrottle[4] -= northStrength;
+			engineThrottle[2] -= upStrength * 2 * engineUnitTorqueModule[6] / (engineUnitTorqueModule[2] + engineUnitTorqueModule[6]);
+			engineThrottle[6] -= upStrength * 2 * engineUnitTorqueModule[2] / (engineUnitTorqueModule[2] + engineUnitTorqueModule[6]);
 		}
 		
-		if (eastStrength > 0)
+		if (rightStrength > 0)
 		{
-			engineThrottle[3] += eastStrength;
-			engineThrottle[7] += eastStrength;
+			engineThrottle[3] += rightStrength * 2 * engineUnitTorqueModule[7] / (engineUnitTorqueModule[3] + engineUnitTorqueModule[7]);
+			engineThrottle[7] += rightStrength * 2 * engineUnitTorqueModule[3] / (engineUnitTorqueModule[3] + engineUnitTorqueModule[7]);
 		}
 		else
 		{
-			engineThrottle[1] -= eastStrength;
-			engineThrottle[5] -= eastStrength;
+			engineThrottle[1] -= rightStrength * 2 * engineUnitTorqueModule[5] / (engineUnitTorqueModule[1] + engineUnitTorqueModule[5]);
+			engineThrottle[5] -= rightStrength * 2 * engineUnitTorqueModule[1] / (engineUnitTorqueModule[1] + engineUnitTorqueModule[5]);
+		}	
+		
+		if (pitchStrength > 0)
+		{
+			engineThrottle[0] += pitchStrength;
+			engineThrottle[6] += pitchStrength;
+		}
+		else
+		{
+			engineThrottle[2] -= pitchStrength;
+			engineThrottle[4] -= pitchStrength;
 		}
 		
-		if (northRotationStrength > 0)
+		if (yawStrength > 0)
 		{
-			engineThrottle[3] += northRotationStrength;
-			engineThrottle[5] += northRotationStrength;
+			engineThrottle[3] += yawStrength;
+			engineThrottle[5] += yawStrength;
 		}
 		else
 		{
-			engineThrottle[1] -= northRotationStrength;
-			engineThrottle[7] -= northRotationStrength;
+			engineThrottle[1] -= yawStrength;
+			engineThrottle[7] -= yawStrength;
 		}
 		
-		if (eastRotationStrength > 0)
+		double max = 0;
+		for (int i = 0; i < 8; i++)
 		{
-			engineThrottle[0] += eastRotationStrength;
-			engineThrottle[6] += eastRotationStrength;
+			if (engineThrottle[i] > max)
+				max = engineThrottle[i];
 		}
-		else
+		if (max > 1)
 		{
-			engineThrottle[2] -= eastRotationStrength;
-			engineThrottle[4] -= eastRotationStrength;
+			for (int i = 0; i < 8; i++)
+			{
+				engineThrottle[i] /= max;
+			}
+		}
+	}
+	
+	private void calulateEngineUnitTorque() throws RPCException
+	{
+		SpaceCenter.ReferenceFrame referenceFrame = vessel.getReferenceFrame();
+		SpaceCenter.Thruster thruster;
+		for (int i = 0; i < 8; i++)
+		{
+			thruster = engine[i].getThrusters().get(0);
+			engineUnitTorque[i] = Utils.outerProduct(thruster.thrustPosition(referenceFrame), thruster.thrustDirection(referenceFrame));
+			engineUnitTorqueModule[i] = Utils.module(engineUnitTorque[i]);
 		}
 	}
 	
@@ -149,30 +184,30 @@ public class ReactionControlSystem
 		setAllEngines();
 	}
 	
-	public void setNorth(float strength) throws RPCException
+	public void setUp(float strength) throws RPCException
 	{
-		northStrength = strength;
+		upStrength = strength;
 		calculateEngineThrottles();
 		setAllEngines();
 	}
 	
-	public void setEast(float strength) throws RPCException
+	public void setRight(float strength) throws RPCException
 	{
-		eastStrength = strength;
+		rightStrength = strength;
 		calculateEngineThrottles();
 		setAllEngines();
 	}
 	
-	public void setNorthRotation(float strength) throws RPCException
+	public void setPitch(float strength) throws RPCException
 	{
-		northRotationStrength = strength;
+		pitchStrength = strength;
 		calculateEngineThrottles();
 		setAllEngines();
 	}
 	
-	public void setEastRotation(float strength) throws RPCException
+	public void setYaw(float strength) throws RPCException
 	{
-		eastRotationStrength = strength;
+		yawStrength = strength;
 		calculateEngineThrottles();
 		setAllEngines();
 	}

@@ -3,6 +3,8 @@ package controller.testBench;
 import java.io.IOException;
 
 import controller.LandingPhase;
+import controller.PropulsionSystem;
+import controller.ReactionControlSystem;
 import controller.ReturnPhase;
 import controller.RunnableDLC;
 import core.KSPPath;
@@ -26,6 +28,12 @@ public class ReturnPhase_TB {
 	        SpaceCenter.ReferenceFrame refFrame = spaceCenter.getBodies().get("Kerbin").getReferenceFrame();
 	        KSPPath.setPath(args);
 	        
+	        vessel.getControl().setThrottle(1);
+	        vessel.getControl().activateNextStage();
+	        PropulsionSystem PS = new PropulsionSystem(vessel);
+	        ReactionControlSystem RCS = new ReactionControlSystem(vessel);
+	        PS.enableAllEngines();
+	        PS.setAllEngineThrottle(1);
 	        ReturnPhase returnPhase = new ReturnPhase(vessel, refFrame);
 	        LandingPhase landingPhase=new LandingPhase(vessel, refFrame, 9.5);
 	        
@@ -41,8 +49,5 @@ public class ReturnPhase_TB {
 	        }
 	        
 	        landingPhase.start();
-	        
-	        //LandingPhase landingPhase = new LandingPhase(vessel, refFrame, 9.5);
-	        //new Thread(landingPhase).start();
 	}
 }
