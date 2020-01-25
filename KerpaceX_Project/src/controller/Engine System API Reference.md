@@ -32,6 +32,8 @@
 ---
 ##### private void calculateEngineThrottles()
 ---
+##### private void calulateEngineUnitTorque()
+---
 ##### public void setForward(float strength)
 ###### Function
 &emsp;设置RCS向前推进的强度。
@@ -39,32 +41,32 @@
 &emsp;strength: 推进强度，-1 ~ 1；若为负值，为向后推进。
 
 ---
-##### public void setNorth(float strength)
+##### public void setUp(float strength)
 ###### Function
-&emsp;设置RCS向北（导航球0°）推进的强度。
+&emsp;设置RCS向上推进的强度。
 ###### Parameter
-&emsp;strength: 推进强度，-1 ~ 1；若为负值，为向南推进。
+&emsp;strength: 推进强度，-1 ~ 1；若为负值，为向下推进。
 
 ---
-##### public void setEast(float strength)
+##### public void setRight(float strength)
 ###### Function
-&emsp;设置RCS向东（导航球90°）推进的强度。
+&emsp;设置RCS向右推进的强度。
 ###### Parameter
-&emsp;strength: 推进强度，-1 ~ 1；若为负值，为向西推进。
+&emsp;strength: 推进强度，-1 ~ 1；若为负值，为向左推进。
 
 ---
-##### public void setNorthRotation(float strength)
+##### public void setPitch(float strength)
 ###### Function
-&emsp;设置RCS以指向北（导航球0°）的角速度推进的强度。
+&emsp;设置RCS向俯仰角增大（抬头）方向推进的强度。
 ###### Parameter
-&emsp;strength: 推进强度，-1 ~ 1；若为负值，为以指向南的角速度推进。
+&emsp;strength: 推进强度，-1 ~ 1；若为负值，为向俯仰角减小方向推进。
 
 ---
-##### public void setEastRotation(float strength)
+##### public void setYaw(float strength)
 ###### Function
-&emsp;设置RCS以指向东（导航球90°）的角速度推进的强度。
+&emsp;设置RCS向航向角增大（右转）方向推进的强度。
 ###### Parameter
-&emsp;strength: 推进强度，-1 ~ 1；若为负值，为以指向西的角速度推进。
+&emsp;strength: 推进强度，-1 ~ 1；若为负值，为向航向角减小方向推进。
 
 ---
 <br/>

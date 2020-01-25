@@ -4,7 +4,8 @@
  * Date: 2020.1.24
  * 
  * Modified on 2020.1.25
- * Add some physical calculation to make translation without rotation by adjust the thrust of the two engine from the same direction 
+ * Add some physical calculation to make translation without rotation by adjust the thrust of the two engine from the same direction. 
+ * Change the name of some methods.
  */
 
 package controller;
