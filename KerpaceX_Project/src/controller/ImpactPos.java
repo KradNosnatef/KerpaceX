@@ -62,13 +62,13 @@ public class ImpactPos {//在实例化之后你可以refreshImpactPos以更新预计撞击点经纬
 	public double getImpactPosLng() {
 		return lng;
 	}
-	public double getImpactPosRelativeLat(){
+	public double getImpactPosRelativeLat(){//预计落点比目标偏左为正
 		return rlat;
 	}
-	public double getImpactPosRelativeLng() {
+	public double getImpactPosRelativeLng() {//预计落点比目标偏远为正
 		return rlng;
 	}
-	public double getImpactPosRelativeDistance() {
+	public double getImpactPosRelativeDistance() {//恒为正
 		return distance;
 	}
 }
