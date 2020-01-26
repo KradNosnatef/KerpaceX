@@ -11,6 +11,7 @@ import core.KSPPath;
 import krpc.client.Connection;
 import krpc.client.RPCException;
 import krpc.client.services.SpaceCenter;
+import krpc.client.services.SpaceCenter.Vessel;
 
 public class ReturnPhase_TB {
 	private static boolean[] signal = new boolean[8];
@@ -31,17 +32,21 @@ public class ReturnPhase_TB {
 	        vessel.getControl().setThrottle(1);
 	        vessel.getControl().activateNextStage();
 	        PropulsionSystem PS = new PropulsionSystem(vessel);
-	        ReactionControlSystem RCS = new ReactionControlSystem(vessel);
 	        PS.enableAllEngines();
 	        PS.setAllEngineThrottle(1);
-	        ReturnPhase returnPhase = new ReturnPhase(vessel, refFrame);
-	        LandingPhase landingPhase=new LandingPhase(vessel, refFrame, 9.5);
 	        
 	        while (vessel.getControl().getThrottle() != 0)
 	        {
 	        	Thread.sleep(0);
 	        }
+			vessel.getControl().activateNextStage();
+	        java.util.List<Vessel> vessels = spaceCenter.getVessels();
+	        SpaceCenter.Vessel stage1 = vessels.get(vessels.size() - 1);
+	        ReturnPhase returnPhase = new ReturnPhase(stage1, refFrame);
+	        LandingPhase landingPhase=new LandingPhase(stage1, refFrame, 9.5);
 	        returnPhase.start();
+	        Thread.sleep(5000);
+			vessel.getControl().setThrottle(1);
 	        
 	        while (signal[0] != true)
 	        {

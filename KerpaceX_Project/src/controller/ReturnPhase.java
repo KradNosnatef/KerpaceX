@@ -52,7 +52,6 @@ public class ReturnPhase implements Runnable
 	        ReactionControlSystem RCS = new ReactionControlSystem(vessel);
 	        throttle = 0;
 			PS.setAllEngineThrottle(throttle);
-			vessel.getControl().activateNextStage();
 			RCS.setForward(-1);
 			Thread.sleep(3000);
 			RCS.setForward(0);
@@ -73,6 +72,7 @@ public class ReturnPhase implements Runnable
 	        impactLongitude = 0;
 	        while (impactLongitude > KSCLongitude)
 	        {
+	        	vessel.getAutoPilot().setTargetHeading((float) (Math.atan2(KSCLongitude - impactLongitude , KSCLatitude - impactLatitude) / Math.PI * 180));
 	        	if (impactLongitude - KSCLongitude > 1)
 	        		throttle = 1;
 	        	else
@@ -97,16 +97,13 @@ public class ReturnPhase implements Runnable
 			longitudePID.setPIDParameter(100,0,0);
 			longitudePID.setResultLimit(1);
 			longitudePID.setTarget(KSCLongitude);
+			vessel.getAutoPilot().setTargetHeading(-90);
 			while (Math.abs(impactLatitude - KSCLatitude) > 1e-4 || Math.abs(impactLongitude - KSCLongitude) > 1e-4)
 			{
 				RCS.setRight((float) latitudePID.run(impactLatitude));
 				RCS.setForward((float) -longitudePID.run(impactLongitude));
 				Thread.sleep(50);
-				retry: while (true)
-	        	{
-			    	impactPos.refreshImpactPos();
-	        		break retry;
-	        	}
+			    impactPos.refreshImpactPos();
 	        	impactLongitude = impactPos.getImpactPosLng();
 	        	impactLatitude = impactPos.getImpactPosLat();
 			}

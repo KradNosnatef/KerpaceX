@@ -27,11 +27,7 @@ public class LandingPhase_TB {
         
         while(true) {
         	Thread.sleep(1000);
-        	retry: while (true)
-        	{
-		    	impactPos.refreshImpactPos();
-        		break retry;
-        	}
+		    impactPos.refreshImpactPos();
         }
     }   
 }
