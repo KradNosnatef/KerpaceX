@@ -20,16 +20,14 @@ public class RunnableDLC implements Runnable {
 	Flight flight;
 	double test;
 	ImpactPos impactPos;
-	int engageDirection=1;//从西向东接近KSC为1,从东向西接近KSC为-1
 	double KSC=-74.557680;
 	double CHIDAO=-0.097198;
-	public RunnableDLC(SpaceCenter spaceCenter,int engageDirection) throws RPCException {
+	public RunnableDLC(SpaceCenter spaceCenter) throws RPCException {
 		this.spaceCenter=spaceCenter;
 		this.vessel=spaceCenter.getActiveVessel();
 		this.control=vessel.getControl();
 		this.flight=vessel.flight(null);
 		impactPos=new ImpactPos(vessel);
-		this.engageDirection=engageDirection;
 	}
 	public void run() {
 		try {
@@ -60,17 +58,17 @@ public class RunnableDLC implements Runnable {
 		rollPID.setResultLimit(0.1);
 		try {
 			impactPos.refreshImpactPos();
-		} catch (IOException | RPCException e1) {
+		} catch (RPCException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		while(true) {
 			try {
 				Thread.sleep(100);
-				impactPos.refreshImpactPos();
+				impactPos.refreshImpactPos(CHIDAO, KSC);
 					
 				//System.out.println(impactPos.getImpactPosLng());
-				if(((impactPos.getImpactPosLng()-KSC)*engageDirection)>0.002) {
+				if(impactPos.getImpactPosRelativeLng()>0.002) {
 					pitchPID.setTarget(-15);
 					vessel.getParts().withTag("airbrake").get(0).getControlSurface().setDeployed(true);
 					vessel.getParts().withTag("airbrake").get(1).getControlSurface().setDeployed(true);
@@ -82,18 +80,18 @@ public class RunnableDLC implements Runnable {
 					vessel.getParts().withTag("airbrake").get(1).getControlSurface().setDeployed(false);
 					vessel.getParts().withTag("airbrake").get(2).getControlSurface().setDeployed(false);
 					vessel.getParts().withTag("airbrake").get(3).getControlSurface().setDeployed(false);
-					if(((impactPos.getImpactPosLng()-KSC)*engageDirection)>0.0001)pitchPID.setTarget(-15);
-					else if(((impactPos.getImpactPosLng()-KSC)*engageDirection)<-0.0001)pitchPID.setTarget(9);
+					if(impactPos.getImpactPosRelativeLng()>0.0001)pitchPID.setTarget(-15);
+					else if(impactPos.getImpactPosRelativeLng()<-0.0001)pitchPID.setTarget(9);
 					else pitchPID.setTarget(-3);
 				}
 
-				System.out.println(impactPos.getImpactPosLat());
-				if((impactPos.getImpactPosLat()-CHIDAO)>0.02)yawPID.setTarget(30*engageDirection);
-				else if((impactPos.getImpactPosLat()-CHIDAO)>0.001)yawPID.setTarget(15*engageDirection);
-				else if((impactPos.getImpactPosLat()-CHIDAO)>0.0001)yawPID.setTarget(3*engageDirection);
-				else if((impactPos.getImpactPosLat()-CHIDAO)<-0.02)yawPID.setTarget(-30*engageDirection);
-				else if((impactPos.getImpactPosLat()-CHIDAO)<-0.001)yawPID.setTarget(-15*engageDirection);
-				else if((impactPos.getImpactPosLat()-CHIDAO)<-0.0001)yawPID.setTarget(-3*engageDirection);
+				System.out.println(impactPos.getImpactPosRelativeLat());
+				if(impactPos.getImpactPosRelativeLat()>0.02)yawPID.setTarget(30);
+				else if(impactPos.getImpactPosRelativeLat()>0.001)yawPID.setTarget(15);
+				else if(impactPos.getImpactPosRelativeLat()>0.0001)yawPID.setTarget(3);
+				else if(impactPos.getImpactPosRelativeLat()<-0.02)yawPID.setTarget(-30);
+				else if(impactPos.getImpactPosRelativeLat()<-0.001)yawPID.setTarget(-15);
+				else if(impactPos.getImpactPosRelativeLat()<-0.0001)yawPID.setTarget(-3);
 				else yawPID.setTarget(0);
 				
 				control.setYaw((float) (yawPID.run(flight.getSideslipAngle())));

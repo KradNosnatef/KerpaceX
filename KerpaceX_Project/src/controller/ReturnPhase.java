@@ -81,14 +81,7 @@ public class ReturnPhase implements Runnable
 	        	Thread.sleep(50);
 	        	retry: while (true)
 	        	{
-			    	try
-			    	{
-			    		impactPos.refreshImpactPos();
-			    	}
-			    	catch (IOException e)
-			    	{
-			    		continue retry;
-			    	}
+			    	impactPos.refreshImpactPos();
 	        		break retry;
 	        	}
 	        	impactLongitude = impactPos.getImpactPosLng();
@@ -111,14 +104,7 @@ public class ReturnPhase implements Runnable
 				Thread.sleep(50);
 				retry: while (true)
 	        	{
-			    	try
-			    	{
-			    		impactPos.refreshImpactPos();
-			    	}
-			    	catch (IOException e)
-			    	{
-			    		continue retry;
-			    	}
+			    	impactPos.refreshImpactPos();
 	        		break retry;
 	        	}
 	        	impactLongitude = impactPos.getImpactPosLng();
