@@ -25,8 +25,8 @@ import controller.testBench.ReturnPhase_TB;
 
 public class ReturnPhase implements Runnable
 {
-	Thread thread;
-	String threadName = "Return Phase";
+	private Thread thread;
+	private String threadName = "Return Phase";
 	private SpaceCenter.Vessel vessel;				//飞船对象
 	private SpaceCenter.ReferenceFrame refFrame;	//参考系对象
 	private SpaceCenter.Flight flight;				//飞行对象，必须以Kerbin参考系建立

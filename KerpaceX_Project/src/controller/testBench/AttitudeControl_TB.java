@@ -1,0 +1,26 @@
+package controller.testBench;
+
+import java.io.IOException;
+
+import controller.ReactionControlSystem;
+import krpc.client.Connection;
+import krpc.client.RPCException;
+import krpc.client.services.SpaceCenter;
+
+public class AttitudeControl_TB {
+	public static void main(String[] args)
+        throws IOException, RPCException, InterruptedException {
+        Connection connection = Connection.newInstance("ReturnPhase_TB");
+        SpaceCenter spaceCenter = SpaceCenter.newInstance(connection);
+        SpaceCenter.Vessel vessel = spaceCenter.getActiveVessel();
+        
+        ReactionControlSystem RCS = new ReactionControlSystem(vessel);
+        Thread.sleep(5000);
+        RCS.enable();
+        RCS.AttitudeControl.setTarget(0, 0);
+        RCS.AttitudeControl.enable();
+        Thread.sleep(30000);
+        RCS.AttitudeControl.disable();
+        RCS.disable();
+	}
+}

@@ -27,6 +27,7 @@ public class ReactionControlSystem
 	private float rightStrength;
 	private float pitchStrength;
 	private float yawStrength;
+	public AttitudeControl AttitudeControl;
 	
 	@SuppressWarnings("unchecked")
 	public ReactionControlSystem(SpaceCenter.Vessel vessel) throws RPCException
@@ -49,6 +50,7 @@ public class ReactionControlSystem
 			engineThrottle[i] = 0;
 			engineUnitTorqueModule[i] = 1;
 		}
+		AttitudeControl = new AttitudeControl();
 	}
 	
 	public void enable() throws RPCException
@@ -213,4 +215,81 @@ public class ReactionControlSystem
 		setAllEngines();
 	}
 	
+	public class AttitudeControl implements Runnable
+	{
+		private Thread thread;
+		private volatile boolean running;
+		private double yaw;
+		private double pitch;
+		private double angularAcceleration;
+		private double Kp;
+		private double Ki;
+		
+		public AttitudeControl()
+		{
+			thread = new Thread(this, "Attitude Control");
+			running = false;
+			Kp = 1;
+			Ki = -2;
+		}
+		
+		public void run()
+		{
+			try
+			{
+				Utils.NavBallCoordinate vesselAttitude = new Utils.NavBallCoordinate();
+				Utils.NavBallCoordinate targetAttitude = new Utils.NavBallCoordinate();
+				Utils.PolarCoordinate relativePosition = new Utils.PolarCoordinate();
+				Utils.RectangularCoordinate angularVelocity = new Utils.RectangularCoordinate();
+				Triplet<Double, Double, Double> omega;
+				calulateEngineUnitTorque();
+				angularAcceleration = (engineUnitTorqueModule[0] + engineUnitTorqueModule[4]) * engine[0].getMaxThrust() / vessel.getMomentOfInertia().getValue0();
+				while (running)
+				{
+					vesselAttitude.yaw = vessel.flight(null).getHeading();
+					vesselAttitude.pitch = vessel.flight(null).getPitch();
+					vesselAttitude.roll = vessel.flight(null).getRoll();
+					omega = vessel.angularVelocity(vessel.getSurfaceReferenceFrame());
+					targetAttitude.yaw = yaw;
+					targetAttitude.pitch = pitch;
+					relativePosition = Utils.navBallCoordinateToPolarCoordinate(vesselAttitude, targetAttitude);
+					angularVelocity.x = omega.getValue1();
+					angularVelocity.y = -omega.getValue2();
+					angularVelocity.z = omega.getValue0();
+					angularVelocity = Utils.RectangularCoordinateToRectangularCoordinate(vesselAttitude, angularVelocity);
+					setYaw((float) ((-Math.sin(relativePosition.direction) * Kp * relativePosition.distance - Ki * angularVelocity.x) / angularAcceleration));
+					setPitch((float) ((-Math.cos(relativePosition.direction) *  Kp * relativePosition.distance + Ki * angularVelocity.y) / angularAcceleration));
+					Thread.sleep(0);
+				}
+			}
+			catch (RPCException | InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		public void enable()
+		{
+			if (!running)
+			{
+				running = true;
+				thread.start();
+			}
+		}
+		
+		public void disable() throws InterruptedException
+		{
+			if (running)
+			{
+				running = false;
+				thread.join();
+			}
+		}
+		
+		public void setTarget(double yaw, double pitch)
+		{
+			this.yaw = yaw;
+			this.pitch = pitch;
+		}
+	}
 }

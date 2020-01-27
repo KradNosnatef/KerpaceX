@@ -103,7 +103,7 @@ public class Utils
 		return rad / Math.PI * 180;
 	}
 	
-	public static PolarCoordinate navBallCoordinateTransform(NavBallCoordinate vessel, NavBallCoordinate target)
+	public static PolarCoordinate navBallCoordinateToPolarCoordinate(NavBallCoordinate vessel, NavBallCoordinate target)
 	{
 		RectangularCoordinate temp = new RectangularCoordinate();
 		PolarCoordinate result = new PolarCoordinate();
@@ -124,9 +124,28 @@ public class Utils
 		temp.z = Math.cos(degToRad(vessel.yaw)) * Math.cos(degToRad(vessel.pitch)) * Math.cos(degToRad(target.yaw)) * Math.cos(degToRad(target.pitch))
 				+ Math.sin(degToRad(vessel.yaw)) * Math.cos(degToRad(vessel.pitch)) * Math.sin(degToRad(target.yaw)) * Math.cos(degToRad(target.pitch))
 				+ Math.sin(degToRad(vessel.pitch)) * Math.sin(degToRad(target.pitch));
-		System.out.println(temp.toString());
 		result.direction = (Math.atan2(temp.y, temp.x));
 		result.distance = Math.PI / 2 - Math.atan(temp.z / Math.sqrt(temp.x * temp.x + temp.y * temp.y));
+		return result;
+		
+	}
+	
+	public static RectangularCoordinate RectangularCoordinateToRectangularCoordinate(NavBallCoordinate vessel, RectangularCoordinate target)
+	{
+		RectangularCoordinate result = new RectangularCoordinate();
+		result.x = (Math.cos(degToRad(vessel.yaw)) * Math.sin(degToRad(vessel.pitch)) * Math.cos(degToRad(vessel.roll))
+				+ Math.sin(degToRad(vessel.yaw)) * Math.sin(degToRad(vessel.roll))) * target.x
+				+ (-Math.sin(degToRad(vessel.yaw)) * Math.sin(degToRad(vessel.pitch)) * Math.cos(degToRad(vessel.roll))
+				+ Math.cos(degToRad(vessel.yaw)) * Math.sin(degToRad(vessel.roll))) * target.y
+				- Math.cos(degToRad(vessel.pitch)) * Math.cos(degToRad(vessel.roll)) * target.z;
+		result.y = (-Math.cos(degToRad(vessel.yaw)) * Math.sin(degToRad(vessel.pitch)) * Math.sin(degToRad(vessel.roll))
+				+ Math.sin(degToRad(vessel.yaw)) * Math.cos(degToRad(vessel.roll))) * target.x
+				+ (Math.sin(degToRad(vessel.yaw)) * Math.sin(degToRad(vessel.pitch)) * Math.sin(degToRad(vessel.roll))
+				+ Math.cos(degToRad(vessel.yaw)) * Math.cos(degToRad(vessel.roll))) * target.y
+				+ Math.cos(degToRad(vessel.pitch)) * Math.sin(degToRad(vessel.roll)) * target.z;
+		result.z = Math.cos(degToRad(vessel.yaw)) * Math.cos(degToRad(vessel.pitch)) * target.x
+				- Math.sin(degToRad(vessel.yaw)) * Math.cos(degToRad(vessel.pitch)) * target.y
+				+ Math.sin(degToRad(vessel.pitch)) * target.z;
 		return result;
 		
 	}
