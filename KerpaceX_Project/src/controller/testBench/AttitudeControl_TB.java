@@ -15,7 +15,6 @@ public class AttitudeControl_TB {
         SpaceCenter.Vessel vessel = spaceCenter.getActiveVessel();
         
         ReactionControlSystem RCS = new ReactionControlSystem(vessel);
-        Thread.sleep(5000);
         RCS.enable();
         RCS.AttitudeControl.setTarget(0, 0);
         RCS.AttitudeControl.enable();

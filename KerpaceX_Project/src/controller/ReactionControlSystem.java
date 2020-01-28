@@ -242,8 +242,8 @@ public class ReactionControlSystem
 		{
 			thread = new Thread(this, "Attitude Control");
 			running = false;
-			Kp = 1;
-			Ki = -3;
+			Kp = 0;
+			Ki = 0;
 		}
 		
 		public void run()
@@ -257,6 +257,8 @@ public class ReactionControlSystem
 				Triplet<Double, Double, Double> omega;
 				calulateEngineUnitTorque();
 				angularAcceleration = (engineUnitTorqueModule[0] + engineUnitTorqueModule[4]) * engine[0].getMaxThrust() / vessel.getMomentOfInertia().getValue0();
+				Kp = 1 / angularAcceleration;
+				Ki = -0.85 / Math.pow(angularAcceleration, 1.5);
 				while (running)
 				{
 					vesselAttitude.yaw = vessel.flight(null).getHeading();
@@ -270,8 +272,8 @@ public class ReactionControlSystem
 					angularVelocity.y = -omega.getValue2();
 					angularVelocity.z = omega.getValue0();
 					angularVelocity = Utils.RectangularCoordinateToRectangularCoordinate(vesselAttitude, angularVelocity);
-					setYaw((float) ((-Math.sin(relativePosition.direction) * Kp * relativePosition.distance - Ki * angularVelocity.x) / angularAcceleration));
-					setPitch((float) ((-Math.cos(relativePosition.direction) *  Kp * relativePosition.distance + Ki * angularVelocity.y) / angularAcceleration));
+					setYaw((float) (-Math.sin(relativePosition.direction) * Kp * relativePosition.distance - Ki * angularVelocity.x));
+					setPitch((float) (-Math.cos(relativePosition.direction) *  Kp * relativePosition.distance + Ki * angularVelocity.y));
 					Thread.sleep(0);
 				}
 			}

@@ -20,8 +20,6 @@ package controller;
 
 import java.io.IOException;
 
-import org.javatuples.Triplet;
-
 import krpc.client.RPCException;
 import krpc.client.services.SpaceCenter;
 
@@ -80,7 +78,7 @@ public class ReturnPhase implements Runnable
 	        do
 	        {
 	        	vessel.getAutoPilot().setTargetHeading((float) (Math.atan2(KSCLongitude - impactLongitude , KSCLatitude - impactLatitude) / Math.PI * 180));
-	        	if (impactPos.getImpactPosRelativeDistance() > 1)
+	        	if (impactPos.getImpactPosRelativeDistance() > 0.5)
 	        		throttle = 1;
 	        	else
 	        		throttle = 0.1f;
@@ -91,20 +89,20 @@ public class ReturnPhase implements Runnable
 	        	impactLatitude = impactPos.getImpactPosLat();
 	        	System.out.println(impactPos.getImpactPosRelativeDistance());
 	        }
-	        while (impactPos.getImpactPosRelativeDistance() > 0.1);
+	        while (impactPos.getImpactPosRelativeDistance() > 0.025);
 	        throttle = 0;
 	        PS.setAllEngineThrottle(throttle);
 	        PIDController latitudePID = new PIDController();
 			PIDController longitudePID = new PIDController();
 			latitudePID.setPIDParameter(100,0,0);
 			latitudePID.setResultLimit(1);
-			latitudePID.setTarget(KSCLatitude);
+			latitudePID.setTarget(0);
 			longitudePID.setPIDParameter(100,0,0);
 			longitudePID.setResultLimit(1);
-			longitudePID.setTarget(KSCLongitude);
+			longitudePID.setTarget(0);
 			do
 			{
-				RCS.setRight((float) latitudePID.run(impactLatitude));
+				RCS.setRight((float) -latitudePID.run(impactLatitude));
 				RCS.setForward((float) -longitudePID.run(impactLongitude));
 				Thread.sleep(50);
 			    impactPos.refreshImpactPos(KSCLatitude, KSCLongitude);
