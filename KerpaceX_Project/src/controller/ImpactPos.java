@@ -36,8 +36,8 @@ public class ImpactPos {//在实例化之后你可以refreshImpactPos以更新预计撞击点经纬
 		//System.out.println(lat+" "+lng);
 		rotate=Math.atan2((vessel.flight(null).getLatitude()-targetLat),(vessel.flight(null).getLongitude()-targetLng));
 		rotate=rotate-Math.atan2((lat-targetLat),(lng-targetLng));
-		distance=Math.sqrt(	(vessel.flight(null).getLatitude()-targetLat)*(vessel.flight(null).getLatitude()-targetLat)+
-							(vessel.flight(null).getLongitude()-targetLng)*(vessel.flight(null).getLongitude()-targetLng));
+		distance=Math.sqrt(	(lat-targetLat)*(lat-targetLat)+
+							(lng-targetLng)*(lng-targetLng));
 		rlat=distance*Math.sin(rotate);
 		rlng=distance*Math.cos(rotate);
 	}
