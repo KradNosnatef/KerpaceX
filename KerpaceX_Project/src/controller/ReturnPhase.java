@@ -10,6 +10,10 @@
  * Modified on 2020.1.25
  * Fit with the application of new engine system.
  * Can adjust impact position precisely now.
+ * 
+ * Modified on 2020.1.28
+ * Use new ImpactPos module and AttitudeControl module
+ * Can support launch on different orbit inclination
  */
 
 package controller;
