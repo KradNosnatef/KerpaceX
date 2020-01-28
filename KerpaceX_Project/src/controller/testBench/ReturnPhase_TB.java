@@ -39,11 +39,12 @@ public class ReturnPhase_TB {
 	        {
 	        	Thread.sleep(0);
 	        }
+	        PS.setAllEngineThrottle(0);
 			vessel.getControl().activateNextStage();
 	        java.util.List<Vessel> vessels = spaceCenter.getVessels();
 	        SpaceCenter.Vessel stage1 = vessels.get(vessels.size() - 1);
-	        ReturnPhase returnPhase = new ReturnPhase(stage1, refFrame);
-	        LandingPhase landingPhase=new LandingPhase(stage1, refFrame, 9.5);
+	        ReturnPhase returnPhase = new ReturnPhase(vessel, refFrame);
+	        LandingPhase landingPhase=new LandingPhase(vessel, refFrame, 9.5);
 	        returnPhase.start();
 	        Thread.sleep(5000);
 			vessel.getControl().setThrottle(1);

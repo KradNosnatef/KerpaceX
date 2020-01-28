@@ -85,6 +85,19 @@ public class ReactionControlSystem
 		}
 	}
 	
+	public void stopAllEngines() throws RPCException
+	{
+		for (int i = 0; i < 8; i++)
+		{
+			setEngine(i, 0);
+		}
+		forwardStrength = 0;
+		upStrength = 0;
+		rightStrength = 0;
+		pitchStrength = 0;
+		yawStrength = 0;
+	}
+	
 	private void calculateEngineThrottles() throws RPCException
 	{
 		for (int i = 0; i < 8; i++)
@@ -230,7 +243,7 @@ public class ReactionControlSystem
 			thread = new Thread(this, "Attitude Control");
 			running = false;
 			Kp = 1;
-			Ki = -2;
+			Ki = -3;
 		}
 		
 		public void run()
@@ -277,12 +290,13 @@ public class ReactionControlSystem
 			}
 		}
 		
-		public void disable() throws InterruptedException
+		public void disable() throws InterruptedException, RPCException
 		{
 			if (running)
 			{
 				running = false;
 				thread.join();
+				stopAllEngines();
 			}
 		}
 		

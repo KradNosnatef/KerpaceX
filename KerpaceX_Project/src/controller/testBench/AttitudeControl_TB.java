@@ -19,8 +19,9 @@ public class AttitudeControl_TB {
         RCS.enable();
         RCS.AttitudeControl.setTarget(0, 0);
         RCS.AttitudeControl.enable();
-        Thread.sleep(30000);
-        RCS.AttitudeControl.disable();
-        RCS.disable();
+       while (true)
+       {
+    	   Thread.sleep(0);
+       }
 	}
 }
