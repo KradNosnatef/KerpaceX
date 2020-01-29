@@ -12,10 +12,15 @@
  * 
  * Modified on 2020.1.25
  * Fit with the application of new engine system.
+ * 
+ * Modified on 2020.1.29
+ * This module now should be initialized with a FirstStage object to simplify its initializing list.
+ * Remove massCenterHeight, this value can be set automatically now.
  */
 
 package controller;
 
+import controller.Rocket.FirstStage;
 import krpc.client.RPCException;
 import krpc.client.services.SpaceCenter;
 
@@ -24,7 +29,9 @@ public class LandingPhase implements Runnable
 	private Thread thread;
 	private String threadName = "Landing Phase";
 	private SpaceCenter.Vessel vessel;				//飞船对象
-	private SpaceCenter.ReferenceFrame refFrame;	//参考系对象
+	private PropulsionSystem PS;
+	private ReactionControlSystem RCS;
+	private SpaceCenter.ReferenceFrame referenceFrame;	//参考系对象
 	private SpaceCenter.Flight flight;				//飞行对象，必须以Kerbin参考系建立
 	private double massCenterHeight;				//火箭质心高度
 	private float throttle;							//节流阀大小
@@ -35,23 +42,26 @@ public class LandingPhase implements Runnable
     private double currentVelocity;					//火箭当前速度
     private double currentHeight;					//火箭当前高度
 	
-	public LandingPhase(SpaceCenter.Vessel vessel, SpaceCenter.ReferenceFrame refFrame, double massCenterHeight) throws RPCException
+	public LandingPhase(FirstStage firstStage) throws RPCException
     {
-    	this.vessel = vessel;
-    	this.refFrame = refFrame;
-    	this.flight = vessel.flight(refFrame);
-    	this.massCenterHeight = massCenterHeight;
+    	vessel = firstStage.getVessel();
+    	PS = firstStage.PropulsionSystem;
+    	RCS = firstStage.ReactionControlSystem;
+    	referenceFrame = firstStage.getSpaceCenter().getBodies().get("Kerbin").getReferenceFrame();
+    	flight = vessel.flight(referenceFrame);
     }
 	
 	//获取火箭当前状态的数据
     public void updateData() throws RPCException
     {
+    	final SpaceCenter.Part landingLeg = vessel.getParts().withTag("landingLeg").get(0);
     	mass = vessel.getMass();
         thrust = vessel.getThrust();
         thrustMassRatio = thrust / mass / 9.82;
         fuelFlowRate = thrust / vessel.getSpecificImpulse() / 9.82;
         currentVelocity = flight.getVerticalSpeed();
         currentHeight = flight.getSurfaceAltitude();
+        massCenterHeight = -landingLeg.position(vessel.getReferenceFrame()).getValue1();
     }
 	
 	//开始执行降落段程序
@@ -60,9 +70,6 @@ public class LandingPhase implements Runnable
 		//等待下落
 		try
 		{
-			vessel.getControl().setThrottle(1);
-			PropulsionSystem PS = new PropulsionSystem(vessel);
-			ReactionControlSystem RCS = new ReactionControlSystem(vessel);
 			while (flight.getVerticalSpeed() > 0)
 			{
 				Thread.sleep(0);
@@ -79,7 +86,7 @@ public class LandingPhase implements Runnable
 		
 			double lowestHeight;
 			boolean isLandingLegDeployed = false;
-		    BrakingPrediction brakingPrediction = new BrakingPrediction(vessel, refFrame);
+		    BrakingPrediction brakingPrediction = new BrakingPrediction(vessel, referenceFrame);
 		    do
 		    {
 		    	brakingPrediction.updateFullBrakingData();

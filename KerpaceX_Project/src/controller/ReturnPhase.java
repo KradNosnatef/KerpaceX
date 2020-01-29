@@ -14,6 +14,10 @@
  * Modified on 2020.1.28
  * Use new ImpactPos module and AttitudeControl module
  * Can support launch on different orbit inclination
+ * 
+ * Modified on 2020.1.29
+ * This module now should be initialized with a FirstStage object to simplify its initializing list.
+ * Can set the landing target now.
  */
 
 package controller;
@@ -22,49 +26,49 @@ import java.io.IOException;
 
 import krpc.client.RPCException;
 import krpc.client.services.SpaceCenter;
-
-import controller.testBench.ReturnPhase_TB;
+import controller.Rocket.FirstStage;
 
 public class ReturnPhase implements Runnable
 {
 	private Thread thread;
 	private String threadName = "Return Phase";
 	private SpaceCenter.Vessel vessel;				//飞船对象
+	private PropulsionSystem PS;
+	private ReactionControlSystem RCS;
 	private SpaceCenter.ReferenceFrame refFrame;	//参考系对象
 	private SpaceCenter.Flight flight;				//飞行对象，必须以Kerbin参考系建立
 	private float throttle;
+	private double targetLongitude;
+	private double targetLatitude;
 	private double impactLongitude;
 	private double impactLatitude;
-	final double KSCLongitude = -74.65;
-	final double KSCLatitude = -0.0972;
 	
-	public ReturnPhase(SpaceCenter.Vessel vessel, SpaceCenter.ReferenceFrame refFrame) throws RPCException
+	public final static double KSCLongitude = -74.65;
+	public final static double KSCLatitude = -0.0972;
+	
+	public ReturnPhase(FirstStage firstStage, double targetLongitude, double targetLatitude) throws RPCException
 	{
-		this.vessel = vessel;
-    	this.refFrame = refFrame;
-    	this.flight = vessel.flight(refFrame);
+		vessel = firstStage.getVessel();
+		PS = firstStage.PropulsionSystem;
+		RCS = firstStage.ReactionControlSystem;
+		this.targetLongitude = targetLongitude;
+		this.targetLatitude = targetLatitude;
 	}
 	
 	public void run()
 	{
 		try
 		{
-			vessel.getControl().setThrottle(1);
-			PropulsionSystem PS = new PropulsionSystem(vessel);
-	        ReactionControlSystem RCS = new ReactionControlSystem(vessel);
-	        throttle = 0;
-			PS.setAllEngineThrottle(throttle);
-			RCS.setForward(-1);
-			Thread.sleep(3000);
-			RCS.setForward(0);
 			ImpactPos impactPos = new ImpactPos(vessel);
-			impactPos.refreshImpactPos(KSCLatitude, KSCLongitude);
-        	impactLongitude = impactPos.getImpactPosLng();
-        	impactLatitude = impactPos.getImpactPosLat();
+			//impactPos.refreshImpactPos(targetLatitude, targetLongitude);
+        	//impactLongitude = impactPos.getImpactPosLng();
+        	//impactLatitude = impactPos.getImpactPosLat();
+			impactLongitude = 0;
+			impactLatitude = 0;
 			RCS.AttitudeControl.enable();
-			RCS.AttitudeControl.setTarget(Math.atan2(KSCLongitude - impactLongitude , KSCLatitude - impactLatitude) / Math.PI * 180, 0);
+			RCS.AttitudeControl.setTarget(Math.atan2(targetLongitude - impactLongitude , targetLatitude - impactLatitude) / Math.PI * 180, 0);
 			vessel.getAutoPilot().engage();
-			vessel.getAutoPilot().setTargetHeading((float) (Math.atan2(KSCLongitude - impactLongitude , KSCLatitude - impactLatitude) / Math.PI * 180));
+			vessel.getAutoPilot().setTargetHeading((float) (Math.atan2(targetLongitude - impactLongitude , targetLatitude - impactLatitude) / Math.PI * 180));
 			vessel.getAutoPilot().setTargetPitch(0);
 			vessel.getAutoPilot().setTargetRoll(0);
 			while (vessel.getAutoPilot().getPitchError() > 15 || vessel.getAutoPilot().getHeadingError() > 15)
@@ -77,14 +81,14 @@ public class ReturnPhase implements Runnable
 			
 	        do
 	        {
-	        	vessel.getAutoPilot().setTargetHeading((float) (Math.atan2(KSCLongitude - impactLongitude , KSCLatitude - impactLatitude) / Math.PI * 180));
+	        	vessel.getAutoPilot().setTargetHeading((float) (Math.atan2(targetLongitude - impactLongitude , targetLatitude - impactLatitude) / Math.PI * 180));
 	        	if (impactPos.getImpactPosRelativeDistance() > 0.5)
 	        		throttle = 1;
 	        	else
 	        		throttle = 0.1f;
 	        	PS.setAllEngineThrottle(throttle);
 	        	Thread.sleep(50);
-	        	impactPos.refreshImpactPos(KSCLatitude, KSCLongitude);
+	        	impactPos.refreshImpactPos(targetLatitude, targetLongitude);
 	        	impactLongitude = impactPos.getImpactPosLng();
 	        	impactLatitude = impactPos.getImpactPosLat();
 	        	System.out.println(impactPos.getImpactPosRelativeDistance());
@@ -105,14 +109,13 @@ public class ReturnPhase implements Runnable
 				RCS.setRight((float) -latitudePID.run(impactLatitude));
 				RCS.setForward((float) -longitudePID.run(impactLongitude));
 				Thread.sleep(50);
-			    impactPos.refreshImpactPos(KSCLatitude, KSCLongitude);
+			    impactPos.refreshImpactPos(targetLatitude, targetLongitude);
 	        	impactLongitude = impactPos.getImpactPosRelativeLng();
 	        	impactLatitude = impactPos.getImpactPosRelativeLat();
 			}
 			while (impactPos.getImpactPosRelativeDistance() > 1e-4);
 			vessel.getAutoPilot().disengage();
 			RCS.disable();
-			ReturnPhase_TB.setSignal(0);
 		}
 		catch (RPCException | InterruptedException | IOException e)
 		{

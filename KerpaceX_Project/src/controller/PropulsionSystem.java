@@ -5,6 +5,9 @@
  * 
  * Modified on 2020.1.28
  * Add support for multi-engine rockets
+ * 
+ * Modified on 2020.1.29
+ * This module now should be initialized with a tag to determine which part of the rocket will be initialized.
  */
 
 package controller;
@@ -21,18 +24,18 @@ public class PropulsionSystem
 	private List<SpaceCenter.Engine> mainEngine;
 	private List<SpaceCenter.Engine> auxiliaryEngine;
 	
-	public PropulsionSystem(SpaceCenter.Vessel vessel) throws RPCException
+	public PropulsionSystem(SpaceCenter.Vessel vessel, String tag) throws RPCException
 	{
 		this.vessel = vessel;
 		mainEngine = new ArrayList<SpaceCenter.Engine>();
 		auxiliaryEngine = new ArrayList<SpaceCenter.Engine>();
-		for (int i = 0; i < this.vessel.getParts().withTag("mainEngine").size(); i++)
+		for (int i = 0; i < this.vessel.getParts().withTag("mainEngine_"+tag).size(); i++)
 		{
-			mainEngine.add(this.vessel.getParts().withTag("mainEngine").get(i).getEngine());
+			mainEngine.add(this.vessel.getParts().withTag("mainEngine_"+tag).get(i).getEngine());
 		}
-		for (int i = 0; i < this.vessel.getParts().withTag("auxiliaryEngine").size(); i++)
+		for (int i = 0; i < this.vessel.getParts().withTag("auxiliaryEngine_"+tag).size(); i++)
 		{
-			auxiliaryEngine.add(this.vessel.getParts().withTag("auxiliaryEngine").get(i).getEngine());
+			auxiliaryEngine.add(this.vessel.getParts().withTag("auxiliaryEngine_"+tag).get(i).getEngine());
 		}
 	}
 	

@@ -6,6 +6,12 @@
  * Modified on 2020.1.25
  * Add some physical calculation to make translation without rotation by adjust the thrust of the two engine from the same direction. 
  * Change the name of some methods.
+ * 
+ * Modified on 2020.1.27
+ * New attitude control module is usable now!
+ * 
+ * Modified on 2020.1.29
+ * This module now should be initialized with a tag to determine which part of the rocket will be initialized.
  */
 
 package controller;
@@ -30,21 +36,21 @@ public class ReactionControlSystem
 	public AttitudeControl AttitudeControl;
 	
 	@SuppressWarnings("unchecked")
-	public ReactionControlSystem(SpaceCenter.Vessel vessel) throws RPCException
+	public ReactionControlSystem(SpaceCenter.Vessel vessel, String tag) throws RPCException
 	{
 		this.vessel = vessel;
 		engine = new SpaceCenter.Engine[8];
 		engineThrottle = new float[8];
 		engineUnitTorque = new Triplet[8];
 		engineUnitTorqueModule = new double[8];
-		engine[0] = this.vessel.getParts().withTag("RCS_F_D").get(0).getEngine();
-		engine[1] = this.vessel.getParts().withTag("RCS_F_R").get(0).getEngine();
-		engine[2] = this.vessel.getParts().withTag("RCS_F_U").get(0).getEngine();
-		engine[3] = this.vessel.getParts().withTag("RCS_F_L").get(0).getEngine();
-		engine[4] = this.vessel.getParts().withTag("RCS_B_D").get(0).getEngine();
-		engine[5] = this.vessel.getParts().withTag("RCS_B_R").get(0).getEngine();
-		engine[6] = this.vessel.getParts().withTag("RCS_B_U").get(0).getEngine();
-		engine[7] = this.vessel.getParts().withTag("RCS_B_L").get(0).getEngine();
+		engine[0] = this.vessel.getParts().withTag("RCS_F_D_"+tag).get(0).getEngine();
+		engine[1] = this.vessel.getParts().withTag("RCS_F_R_"+tag).get(0).getEngine();
+		engine[2] = this.vessel.getParts().withTag("RCS_F_U_"+tag).get(0).getEngine();
+		engine[3] = this.vessel.getParts().withTag("RCS_F_L_"+tag).get(0).getEngine();
+		engine[4] = this.vessel.getParts().withTag("RCS_B_D_"+tag).get(0).getEngine();
+		engine[5] = this.vessel.getParts().withTag("RCS_B_R_"+tag).get(0).getEngine();
+		engine[6] = this.vessel.getParts().withTag("RCS_B_U_"+tag).get(0).getEngine();
+		engine[7] = this.vessel.getParts().withTag("RCS_B_L_"+tag).get(0).getEngine();
 		for (int i = 0; i < 8; i++)
 		{
 			engineThrottle[i] = 0;
@@ -67,6 +73,11 @@ public class ReactionControlSystem
 		{
 			engine[i].setActive(false);
 		}
+	}
+	
+	public void setVessel(SpaceCenter.Vessel vessel)
+	{
+		this.vessel = vessel;
 	}
 	
 	//Raw API
