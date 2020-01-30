@@ -1,0 +1,346 @@
+# 导航球坐标变换推导
+目的：将游戏中以竖直向上为极轴、北面为0°的导航球坐标系变换成以飞船滚转轴为极轴、下方为0°的极坐标系，以便编写姿态控制算法<br/>约定$pitch=90°$为$z$轴，$yaw=0°, pitch=0°$为$x$轴，$yaw=270°, pitch=0°$为$y$轴<br/>可得导航球坐标与球坐标变换<br/>
+$$
+\left\{
+	\begin{align}
+		r&=1\\
+		\theta&=-\frac\pi{180}\alpha_{yaw}\\
+		\varphi&=\frac\pi{180}\alpha_{pitch}
+	\end{align}
+\right.\tag{1}
+$$
+
+又由球坐标与直角坐标变换得<br/>
+$$
+\left\{
+	\begin{align}
+		x&=cos\left(\frac\pi{180}\alpha_{pitch}\right)cos\left(-\frac\pi{180}\alpha_{yaw}\right)=cos\left(\frac\pi{180}\alpha_{yaw}\right)cos\left(\frac\pi{180}\alpha_{pitch}\right)\\
+		y&=cos\left(\frac\pi{180}\alpha_{pitch}\right)sin\left(-\frac\pi{180}\alpha_{yaw}\right)=-sin\left(\frac\pi{180}\alpha_{yaw}\right)cos\left(\frac\pi{180}\alpha_{pitch}\right)\\
+		z&=sin\left(\frac\pi{180}\alpha_{pitch}\right)
+	\end{align}
+\right.\tag{2}
+$$
+对于直角坐标系，坐标系绕坐标轴旋转的坐标变换公式为<br/>
+$$
+R_x\left(\alpha\right)=
+\left(
+	\begin{matrix}
+		1&0&0\\
+		0&cos\left(\alpha\right)&sin\left(\alpha\right)\\
+		0&-sin\left(\alpha\right)&cos\left(\alpha\right)
+	\end{matrix}
+\right)\tag{3}
+$$
+$$
+R_y\left(\alpha\right)=
+\left(
+	\begin{matrix}
+		cos\left(\alpha\right)&0&-sin\left(\alpha\right)\\
+		0&1&0\\
+		sin\left(\alpha\right)&0&cos\left(\alpha\right)
+	\end{matrix}
+\right)\tag{4}
+$$
+$$
+R_z\left(\alpha\right)=
+\left(
+	\begin{matrix}
+		cos\left(\alpha\right)&sin\left(\alpha\right)&0\\
+		-sin\left(\alpha\right)&cos\left(\alpha\right)&0\\
+		0&0&1
+	\end{matrix}
+\right)\tag{5}
+$$
+下面开始变换<br/>
+设飞船此时在原导航球球坐标系坐标为<br/>
+$$
+^{nav}\boldsymbol p_{vessel}=
+\left(
+	\begin{matrix}
+		\alpha_{yaw}\\
+		\alpha_{pitch}\\
+		\alpha_{roll}
+	\end{matrix}
+\right)
+\tag{6}
+$$
+由 (1) (2) 得<br/>
+$$
+^{sph}\boldsymbol p_{vessel}=
+\left(
+	\begin{matrix}
+		1\\
+		-\frac\pi{180}\alpha_{yaw}\\
+		\frac\pi{180}\alpha_{pitch}
+	\end{matrix}
+\right)
+\tag{7}
+$$
+$$
+^{rec}\boldsymbol p_{vessel}=
+\left(
+	\begin{matrix}
+		cos\left(\frac\pi{180}\alpha_{yaw}\right)cos\left(\frac\pi{180}\alpha_{pitch}\right)\\
+		-sin\left(\frac\pi{180}\alpha_{yaw}\right)cos\left(\frac\pi{180}\alpha_{pitch}\right)\\
+		sin\left(\frac\pi{180}\alpha_{pitch}\right)
+	\end{matrix}
+\right)
+\tag{8}
+$$
+先绕$z$轴，即航向轴，将$\theta$旋转至$0$，让俯仰轴与$y$轴重合，方便后续绕$y$轴旋转调整$\varphi$<br/>
+由 (7) 知应旋转$-\frac\pi{180}\alpha_{yaw}$<br/>
+绕$z$轴旋转$-\frac\pi{180}\alpha_{yaw}$得转换矩阵<br/>
+$$
+\begin{align}
+T_1&=R_z\left(-\frac\pi{180}\alpha_{yaw}\right)=
+\left(
+	\begin{matrix}
+		cos\left(-\frac\pi{180}\alpha_{yaw}\right)&sin\left(-\frac\pi{180}\alpha_{yaw}\right)&0\\
+		-sin\left(-\frac\pi{180}\alpha_{yaw}\right)&cos\left(-\frac\pi{180}\alpha_{yaw}\right)&0\\
+		0&0&1
+	\end{matrix}
+\right)\\
+&=
+\left(
+	\begin{matrix}
+		cos\left(\frac\pi{180}\alpha_{yaw}\right)&-sin\left(\frac\pi{180}\alpha_{yaw}\right)&0\\
+		sin\left(\frac\pi{180}\alpha_{yaw}\right)&cos\left(\frac\pi{180}\alpha_{yaw}\right)&0\\
+		0&0&1
+	\end{matrix}
+\right)
+\end{align}
+\tag{9}
+$$
+此时飞船球坐标与直角坐标为<br/>
+$$
+^{sph}\boldsymbol p_{vessel}=
+\left(
+	\begin{matrix}
+		1\\
+		0\\
+		\frac\pi{180}\alpha_{pitch}
+	\end{matrix}
+\right)
+\tag{10}
+$$
+$$
+\begin{split}
+^{rec}\boldsymbol p_{vessel}&=
+\left(
+	\begin{matrix}
+		cos\left(\frac\pi{180}\alpha_{yaw}\right)&-sin\left(\frac\pi{180}\alpha_{yaw}\right)&0\\
+		sin\left(\frac\pi{180}\alpha_{yaw}\right)&cos\left(\frac\pi{180}\alpha_{yaw}\right)&0\\
+		0&0&1
+	\end{matrix}
+\right)
+\left(
+	\begin{matrix}
+		cos\left(\frac\pi{180}\alpha_{yaw}\right)cos\left(\frac\pi{180}\alpha_{pitch}\right)\\
+		-sin\left(\frac\pi{180}\alpha_{yaw}\right)cos\left(\frac\pi{180}\alpha_{pitch}\right)\\
+		sin\left(\frac\pi{180}\alpha_{pitch}\right)
+	\end{matrix}
+\right)\\
+&=
+\left(
+	\begin{matrix}
+		cos\left(\frac\pi{180}\alpha_{pitch}\right)\\
+		0\\
+		sin\left(\frac\pi{180}\alpha_{pitch}\right)
+	\end{matrix}
+\right)
+\end{split}
+\tag{11}
+$$
+然后绕$y$轴，即俯仰轴，将$\varphi$旋转至$\frac\pi2$<br/>
+由 (10) 知应旋转$\frac\pi2-\frac\pi{180}\alpha_{pitch}$<br/>
+绕$y$轴旋转$\frac\pi2-\frac\pi{180}\alpha_{pitch}$得转换矩阵<br/>
+$$
+\begin{split}
+T_2&=R_y\left(\frac\pi2-\frac\pi{180}\alpha_{pitch}\right)=
+\left(
+	\begin{matrix}
+		cos\left(\frac\pi2-\frac\pi{180}\alpha_{pitch}\right)&0&-sin\left(\frac\pi2-\frac\pi{180}\alpha_{pitch}\right)\\
+		0&1&0\\
+		sin\left(\frac\pi2-\frac\pi{180}\alpha_{pitch}\right)&0&cos\left(\frac\pi2-\frac\pi{180}\alpha_{pitch}\right)
+	\end{matrix}
+\right)\\
+&=
+\left(
+	\begin{matrix}
+		sin\left(\frac\pi{180}\alpha_{pitch}\right)&0&-cos\left(\frac\pi{180}\alpha_{pitch}\right)\\
+		0&1&0\\
+		cos\left(\frac\pi{180}\alpha_{pitch}\right)&0&sin\left(\frac\pi{180}\alpha_{pitch}\right)
+	\end{matrix}
+\right)
+\end{split}
+\tag{12}
+$$
+此时飞船球坐标与直角坐标为<br/>
+$$
+^{sph}\boldsymbol p_{vessel}=\left(\begin{matrix}1\\0\\\frac\pi2\end{matrix}\right)\tag{13}
+$$
+$$
+^{rec}\boldsymbol p_{vessel}=
+\left(
+	\begin{matrix}
+		sin\left(\frac\pi{180}\alpha_{pitch}\right)&0&-cos\left(\frac\pi{180}\alpha_{pitch}\right)\\
+		0&1&0\\
+		cos\left(\frac\pi{180}\alpha_{pitch}\right)&0&sin\left(\frac\pi{180}\alpha_{pitch}\right)
+	\end{matrix}
+\right)
+\left(
+	\begin{matrix}
+		cos\left(\frac\pi{180}\alpha_{pitch}\right)\\
+		0\\
+		sin\left(\frac\pi{180}\alpha_{pitch}\right)
+	\end{matrix}
+\right)
+=
+\left(
+	\begin{matrix}
+		0\\
+		0\\
+		1
+	\end{matrix}
+\right)
+\tag{14}
+$$
+现在飞船滚转轴即为$z$轴，且已进行的两次旋转均为绕航向轴和俯仰轴的旋转，不会改变滚转角<br/>
+最后绕$z$轴，即滚转轴，将滚转角调0<br/>
+绕$z$轴旋转$\frac\pi{180}\alpha_{roll}$得转换矩阵<br/>
+$$
+T_3=R_z\left(\frac\pi{180}\alpha_{roll}\right)=
+\left(
+	\begin{matrix}
+		cos\left(\frac\pi{180}\alpha_{roll}\right)&sin\left(\frac\pi{180}\alpha_{roll}\right)&0\\
+		-sin\left(\frac\pi{180}\alpha_{roll}\right)&cos\left(\frac\pi{180}\alpha_{roll}\right)&0\\
+		0&0&1
+	\end{matrix}
+\right)
+\tag{15}
+$$
+飞船球坐标与直角坐标不变<br/>
+结合 (9) (12) (15) 总变换矩阵为<br/>
+$$
+\begin{split}
+T&=T_3T_2T_1\\
+&=
+\left(
+	\begin{matrix}
+		cos\left(\frac\pi{180}\alpha_{roll}\right)&sin\left(\frac\pi{180}\alpha_{roll}\right)&0\\
+		-sin\left(\frac\pi{180}\alpha_{roll}\right)&cos\left(\frac\pi{180}\alpha_{roll}\right)&0\\
+		0&0&1
+	\end{matrix}
+\right)
+\left(
+	\begin{matrix}
+		sin\left(\frac\pi{180}\alpha_{pitch}\right)&0&-cos\left(\frac\pi{180}\alpha_{pitch}\right)\\
+		0&1&0\\
+		cos\left(\frac\pi{180}\alpha_{pitch}\right)&0&sin\left(\frac\pi{180}\alpha_{pitch}\right)
+	\end{matrix}
+\right)\\
+&\,\quad\,
+\left(
+	\begin{matrix}
+		cos\left(\frac\pi{180}\alpha_{yaw}\right)&-sin\left(\frac\pi{180}\alpha_{yaw}\right)&0\\
+		sin\left(\frac\pi{180}\alpha_{yaw}\right)&cos\left(\frac\pi{180}\alpha_{yaw}\right)&0\\
+		0&0&1
+	\end{matrix}
+\right)\\
+&=
+\left(
+	\begin{matrix}
+		sin\left(\frac\pi{180}\alpha_{pitch}\right)cos\left(\frac\pi{180}\alpha_{roll}\right)&sin\left(\frac\pi{180}\alpha_{roll}\right)&-cos\left(\frac\pi{180}\alpha_{pitch}\right)cos\left(\frac\pi{180}\alpha_{roll}\right)\\
+		-sin\left(\frac\pi{180}\alpha_{pitch}\right)sin\left(\frac\pi{180}\alpha_{roll}\right)&cos\left(\frac\pi{180}\alpha_{roll}\right)&cos\left(\frac\pi{180}\alpha_{pitch}\right)sin\left(\frac\pi{180}\alpha_{roll}\right)\\
+		cos\left(\frac\pi{180}\alpha_{pitch}\right)&0&sin\left(\frac\pi{180}\alpha_{pitch}\right)
+	\end{matrix}
+\right)\\
+&\,\quad\,
+\left(
+	\begin{matrix}
+		cos\left(\frac\pi{180}\alpha_{yaw}\right)&-sin\left(\frac\pi{180}\alpha_{yaw}\right)&0\\
+		sin\left(\frac\pi{180}\alpha_{yaw}\right)&cos\left(\frac\pi{180}\alpha_{yaw}\right)&0\\
+		0&0&1
+	\end{matrix}
+\right)\\
+&=
+\begin{split}
+	\left(
+		\begin{matrix}
+			cos\left(\frac\pi{180}\alpha_{yaw}\right)sin\left(\frac\pi{180}\alpha_{pitch}\right)cos\left(\frac\pi{180}\alpha_{roll}\right)+sin\left(\frac\pi{180}\alpha_{yaw}\right)sin\left(\frac\pi{180}\alpha_{roll}\right)\\
+			-cos\left(\frac\pi{180}\alpha_{yaw}\right)sin\left(\frac\pi{180}\alpha_{pitch}\right)sin\left(\frac\pi{180}\alpha_{roll}\right)+sin\left(\frac\pi{180}\alpha_{yaw}\right)cos\left(\frac\pi{180}\alpha_{roll}\right)\\
+			cos\left(\frac\pi{180}\alpha_{yaw}\right)cos\left(\frac\pi{180}\alpha_{pitch}\right)
+		\end{matrix}
+	\right.\ \ \ \\
+	\begin{matrix}
+		-sin\left(\frac\pi{180}\alpha_{yaw}\right)sin\left(\frac\pi{180}\alpha_{pitch}\right)cos\left(\frac\pi{180}\alpha_{roll}\right)+cos\left(\frac\pi{180}\alpha_{yaw}\right)sin\left(\frac\pi{180}\alpha_{roll}\right)\\
+		sin\left(\frac\pi{180}\alpha_{yaw}\right)sin\left(\frac\pi{180}\alpha_{pitch}\right)sin\left(\frac\pi{180}\alpha_{roll}\right)+cos\left(\frac\pi{180}\alpha_{yaw}\right)cos\left(\frac\pi{180}\alpha_{roll}\right)\\
+		-sin\left(\frac\pi{180}\alpha_{yaw}\right)cos\left(\frac\pi{180}\alpha_{pitch}\right)
+	\end{matrix}\ \ \ \\
+	\left.
+		\begin{matrix}
+			-cos\left(\frac\pi{180}\alpha_{pitch}\right)cos\left(\frac\pi{180}\alpha_{roll}\right)\\
+			cos\left(\frac\pi{180}\alpha_{pitch}\right)sin\left(\frac\pi{180}\alpha_{roll}\right)\\
+			sin\left(\frac\pi{180}\alpha_{pitch}\right)
+		\end{matrix}
+	\right)
+\end{split}
+\end{split}
+\tag{16}
+$$
+不妨设目标方向<br/>
+$$
+^{nav}\boldsymbol p_{target}=
+\left(
+	\begin{matrix}
+		\beta_{yaw}\\
+		\beta_{pitch}\\
+		any
+	\end{matrix}
+\right)
+\tag{17}
+$$
+由 (2) 目标的直角坐标为<br/>
+$$
+^{rec}\boldsymbol p_{target}=
+\left(
+	\begin{matrix}
+		cos\left(\frac\pi{180}\beta_{yaw}\right)cos\left(\frac\pi{180}\beta_{pitch}\right)\\
+		-sin\left(\frac\pi{180}\beta_{yaw}\right)cos\left(\frac\pi{180}\beta_{pitch}\right)\\
+		sin\left(\frac\pi{180}\beta_{pitch}\right)
+	\end{matrix}
+\right)
+\tag{18}
+$$
+由 (16) 变换得<br/>
+$$
+\begin{split}
+    ^{rec}\boldsymbol p_{target}&=T
+    \left(
+        \begin{matrix}
+            cos\left(\frac\pi{180}\beta_{yaw}\right)cos\left(\frac\pi{180}\beta_{pitch}\right)\\
+            -sin\left(\frac\pi{180}\beta_{yaw}\right)cos\left(\frac\pi{180}\beta_{pitch}\right)\\
+            sin\left(\frac\pi{180}\beta_{pitch}\right)
+        \end{matrix}
+    \right)\\
+    &=
+    \left(
+        \begin{matrix}
+            \left(cos\left(\frac\pi{180}\alpha_{yaw}\right)sin\left(\frac\pi{180}\alpha_{pitch}\right)cos\left(\frac\pi{180}\alpha_{roll}\right)+sin\left(\frac\pi{180}\alpha_{yaw}\right)sin\left(\frac\pi{180}\alpha_{roll}\right)\right)cos\left(\frac\pi{180}\beta_{yaw}\right)cos\left(\frac\pi{180}\beta_{pitch}\right)-\left(-sin\left(\frac\pi{180}\alpha_{yaw}\right)sin\left(\frac\pi{180}\alpha_{pitch}\right)cos\left(\frac\pi{180}\alpha_{roll}\right)+cos\left(\frac\pi{180}\alpha_{yaw}\right)sin\left(\frac\pi{180}\alpha_{roll}\right)\right)sin\left(\frac\pi{180}\beta_{yaw}\right)cos\left(\frac\pi{180}\beta_{pitch}\right)-cos\left(\frac\pi{180}\alpha_{pitch}\right)cos\left(\frac\pi{180}\alpha_{roll}\right)sin\left(\frac\pi{180}\beta_{pitch}\right)\\
+            \left(-cos\left(\frac\pi{180}\alpha_{yaw}\right)sin\left(\frac\pi{180}\alpha_{pitch}\right)sin\left(\frac\pi{180}\alpha_{roll}\right)+sin\left(\frac\pi{180}\alpha_{yaw}\right)cos\left(\frac\pi{180}\alpha_{roll}\right)\right)cos\left(\frac\pi{180}\beta_{yaw}\right)cos\left(\frac\pi{180}\beta_{pitch}\right)-\left(sin\left(\frac\pi{180}\alpha_{yaw}\right)sin\left(\frac\pi{180}\alpha_{pitch}\right)sin\left(\frac\pi{180}\alpha_{roll}\right)+cos\left(\frac\pi{180}\alpha_{yaw}\right)cos\left(\frac\pi{180}\alpha_{roll}\right)\right)sin\left(\frac\pi{180}\beta_{yaw}\right)cos\left(\frac\pi{180}\beta_{pitch}\right)+cos\left(\frac\pi{180}\alpha_{pitch}\right)sin\left(\frac\pi{180}\alpha_{roll}\right)sin\left(\frac\pi{180}\beta_{pitch}\right)\\
+            cos\left(\frac\pi{180}\alpha_{yaw}\right)cos\left(\frac\pi{180}\alpha_{pitch}\right)cos\left(\frac\pi{180}\beta_{yaw}\right)cos\left(\frac\pi{180}\beta_{pitch}\right)+sin\left(\frac\pi{180}\alpha_{yaw}\right)cos\left(\frac\pi{180}\alpha_{pitch}\right)sin\left(\frac\pi{180}\beta_{yaw}\right)cos\left(\frac\pi{180}\beta_{pitch}\right)+sin\left(\frac\pi{180}\alpha_{pitch}\right)sin\left(\frac\pi{180}\beta_{pitch}\right)
+        \end{matrix}
+    \right)
+\end{split}
+\tag{19}
+$$
+最后由<br/>
+$$
+\left\{
+	\begin{align}
+		\theta&=atan2(y,x)\\
+		\varphi&=atan(\frac z{\sqrt{x^2+y^2}})
+	\end{align}
+\right.
+$$
+即可解得球坐标<br/>

@@ -79,7 +79,12 @@ public class ReturnPhase implements Runnable
 			throttle = 1;
 			PS.setAllEngineThrottle(throttle);
 			
-	        do
+			while (true)
+			{
+				Thread.sleep(0);
+			}
+			
+	        /*do
 	        {
 	        	vessel.getAutoPilot().setTargetHeading((float) (Math.atan2(targetLongitude - impactLongitude , targetLatitude - impactLatitude) / Math.PI * 180));
 	        	if (impactPos.getImpactPosRelativeDistance() > 0.5)
@@ -115,9 +120,9 @@ public class ReturnPhase implements Runnable
 			}
 			while (impactPos.getImpactPosRelativeDistance() > 1e-4);
 			vessel.getAutoPilot().disengage();
-			RCS.disable();
+			RCS.disable();*/
 		}
-		catch (RPCException | InterruptedException | IOException e)
+		catch (RPCException | InterruptedException e)
 		{
 			e.printStackTrace();
 		}	
