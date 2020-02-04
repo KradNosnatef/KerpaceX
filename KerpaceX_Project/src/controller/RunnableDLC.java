@@ -20,8 +20,10 @@ public class RunnableDLC implements Runnable {
 	Flight flight;
 	double test;
 	ImpactPos impactPos;
-	double KSC=-74.557680;
-	double CHIDAO=-0.097198;
+	double targetLng=-74.557680;
+	double targetLat=-0.097198;
+	double exitAltitude=0;
+	boolean running=true;
 	public RunnableDLC(SpaceCenter spaceCenter) throws RPCException {
 		this.spaceCenter=spaceCenter;
 		this.vessel=spaceCenter.getActiveVessel();
@@ -29,6 +31,16 @@ public class RunnableDLC implements Runnable {
 		this.flight=vessel.flight(null);
 		impactPos=new ImpactPos(vessel);
 	}
+	
+	public void setTarget(double targetLat,double targetLng) {
+		this.targetLat=targetLat;
+		this.targetLng=targetLng;
+	}
+	
+	public void setExitAltitude(double exitAltitude) {
+		this.exitAltitude=exitAltitude;
+	}
+	
 	public void run() {
 		try {
 			control.setActionGroup(1, true);
@@ -62,10 +74,11 @@ public class RunnableDLC implements Runnable {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		while(true) {
+		running=true;
+		while(running) {
 			try {
 				Thread.sleep(100);
-				impactPos.refreshImpactPos(CHIDAO, KSC);
+				impactPos.refreshImpactPos(targetLat, targetLng);
 					
 				//System.out.println(impactPos.getImpactPosLng());
 				if(impactPos.getImpactPosRelativeLng()>0.002) {
@@ -98,6 +111,7 @@ public class RunnableDLC implements Runnable {
 				control.setPitch((float) (pitchPID.run(flight.getAngleOfAttack())));
 				control.setRoll((float) rollPID.run(flight.getRoll()));
 				System.out.println(flight.getRoll());
+				if(flight.getSurfaceAltitude()>exitAltitude)running=false;
 			} catch (RPCException | InterruptedException | IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
