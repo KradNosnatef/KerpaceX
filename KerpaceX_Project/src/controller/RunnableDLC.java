@@ -81,7 +81,7 @@ public class RunnableDLC implements Runnable {
 				impactPos.refreshImpactPos(targetLat, targetLng);
 					
 				//System.out.println(impactPos.getImpactPosLng());
-				if(impactPos.getImpactPosRelativeLng()>0.002) {
+				if(impactPos.getImpactPosRelativeLng()<-0.002) {
 					pitchPID.setTarget(-15);
 					vessel.getParts().withTag("airbrake").get(0).getControlSurface().setDeployed(true);
 					vessel.getParts().withTag("airbrake").get(1).getControlSurface().setDeployed(true);
@@ -93,9 +93,9 @@ public class RunnableDLC implements Runnable {
 					vessel.getParts().withTag("airbrake").get(1).getControlSurface().setDeployed(false);
 					vessel.getParts().withTag("airbrake").get(2).getControlSurface().setDeployed(false);
 					vessel.getParts().withTag("airbrake").get(3).getControlSurface().setDeployed(false);
-					if(impactPos.getImpactPosRelativeLng()>0.0001)pitchPID.setTarget(-15);
-					else if(impactPos.getImpactPosRelativeLng()<-0.0001)pitchPID.setTarget(9);
-					else pitchPID.setTarget(-3);
+					if(impactPos.getImpactPosRelativeLng()<-0.0001)pitchPID.setTarget(-15);
+					else if(impactPos.getImpactPosRelativeLng()>0.0001)pitchPID.setTarget(15);
+					else pitchPID.setTarget(0);
 				}
 
 				System.out.println(impactPos.getImpactPosRelativeLat());
@@ -111,11 +111,22 @@ public class RunnableDLC implements Runnable {
 				control.setPitch((float) (pitchPID.run(flight.getAngleOfAttack())));
 				control.setRoll((float) rollPID.run(flight.getRoll()));
 				System.out.println(flight.getRoll());
-				if(flight.getSurfaceAltitude()>exitAltitude)running=false;
+				if(flight.getSurfaceAltitude()<exitAltitude) {
+					running=false;
+					control.setYaw(0);
+					control.setPitch(0);
+					control.setRoll(0);
+				}
 			} catch (RPCException | InterruptedException | IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		try {
+			control.setActionGroup(2, true);
+		} catch (RPCException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	public void start() {
