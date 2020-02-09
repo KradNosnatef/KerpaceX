@@ -12,6 +12,7 @@ public class RunnableInclinationAngle implements Runnable {
 	private Vessel vessel = null;
 	private CelestialBody celestialBody = null;
 	private double inclinationAngle = Math.PI / 2;
+	private double percent=0.0;//垂直上升后的转向执行百分数，越低发射曲线越平缓，越高发射曲线越竖直，为1.0时持续垂直上升
 	public boolean exit = false;//暂时提出来用于测试
 	
 	public RunnableInclinationAngle(Vessel vessel, CelestialBody celestialBody) {
@@ -39,6 +40,10 @@ public class RunnableInclinationAngle implements Runnable {
 		this.targetTimeTOAp = targetTimeTOAp;
 	}
 
+	public void setPercent(double percent) {
+		this.percent=percent;
+	}
+	
 	// "stop signal" callback function
 	void signal() {
 
@@ -69,7 +74,7 @@ public class RunnableInclinationAngle implements Runnable {
 				//当前所受引力
 				gravity = currentGravity(vessel.getMass(),(float)(vessel.flight(null).getMeanAltitude()+celestialBody.getEquatorialRadius()),celestialBody.getGravitationalParameter());
 				//计算倾角
-				inclinationAngle = Math.asin(gravity/vessel.getAvailableThrust());
+				inclinationAngle = Math.PI/2-((Math.PI/2)-Math.asin(gravity/vessel.getAvailableThrust()))*(1-percent);
 
 				
 			} catch (RPCException | InterruptedException e) {						
