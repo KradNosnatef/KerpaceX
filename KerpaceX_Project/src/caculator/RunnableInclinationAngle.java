@@ -7,7 +7,7 @@ import krpc.client.services.SpaceCenter.Vessel;
 
 public class RunnableInclinationAngle implements Runnable {
 	private int targetAp = 80000; // the target apogee is 80km
-	private double targetTimeTOAp = 80.0;// 目标ap倒计时默认10秒
+	private double targetTimeTOAp = 10.0;// 目标ap倒计时默认10秒
 	private Thread t = null;
 	private Vessel vessel = null;
 	private CelestialBody celestialBody = null;
