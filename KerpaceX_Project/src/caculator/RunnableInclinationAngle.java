@@ -12,7 +12,7 @@ public class RunnableInclinationAngle implements Runnable {
 	private Vessel vessel = null;
 	private CelestialBody celestialBody = null;
 	private double inclinationAngle = Math.PI / 2;
-	private double percent=0.0;//垂直上升后的转向执行百分数，越低发射曲线越平缓，越高发射曲线越竖直，为1.0时持续垂直上升
+	private double percent=0.0;//垂直上升后的转向执行百分数，越低发射曲线越平缓，越高发射曲线越竖直，为1.0时持续垂直上升，缺省值是0
 	public boolean exit = false;//暂时提出来用于测试
 	
 	public RunnableInclinationAngle(Vessel vessel, CelestialBody celestialBody) {
