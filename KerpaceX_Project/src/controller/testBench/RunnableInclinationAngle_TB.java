@@ -22,6 +22,7 @@ public class RunnableInclinationAngle_TB {
         PropulsionSystem rightBoosterEngine=new PropulsionSystem(vessel,"rightBooster");
         
         RunnableInclinationAngle runnableInclinationAngle = new RunnableInclinationAngle(vessel, celestialBody);
+        runnableInclinationAngle.setPercent(0.8);
         runnableInclinationAngle.start();
 
         vessel.getControl().setSAS(false);

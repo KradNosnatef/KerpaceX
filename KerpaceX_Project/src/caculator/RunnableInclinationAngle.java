@@ -66,7 +66,7 @@ public class RunnableInclinationAngle implements Runnable {
 			try {
 
 
-				Thread.sleep(10);
+				Thread.sleep(100);
 			    if (vessel.getOrbit().getApoapsisAltitude() >= targetAp) {
 						signal();
 						exit = true;//结束循环后，线程自动终止
@@ -75,7 +75,7 @@ public class RunnableInclinationAngle implements Runnable {
 				gravity = currentGravity(vessel.getMass(),(float)(vessel.flight(null).getMeanAltitude()+celestialBody.getEquatorialRadius()),celestialBody.getGravitationalParameter());
 				//计算倾角
 				inclinationAngle = Math.PI/2-((Math.PI/2)-Math.asin(gravity/vessel.getAvailableThrust()))*(1-percent);
-
+				percent=percent*0.999;
 				
 			} catch (RPCException | InterruptedException e) {						
 				e.printStackTrace();
