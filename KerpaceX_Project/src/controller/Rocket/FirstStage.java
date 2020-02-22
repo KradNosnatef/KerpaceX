@@ -51,7 +51,8 @@ public class FirstStage implements Runnable
 	{
 		try
 		{
-			vessel = decoupler.decouple();
+			vessel.getControl().activateNextStage();
+			vessel = controlUnit.getVessel();
 			PropulsionSystem.setAllEngineThrottle(0);
 			vessel.getControl().setThrottle(1);
 			ReactionControlSystem.setVessel(vessel);
