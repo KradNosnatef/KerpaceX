@@ -22,6 +22,9 @@ public class Boosters
 	
 	public void separate() throws RPCException, InterruptedException
 	{
+		leftBooster.PropulsionSystem.setAllEngineThrottle(0.25f);
+		rightBooster.PropulsionSystem.setAllEngineThrottle(0.25f);
+		leftBooster.vessel.getControl().activateNextStage();
 		leftBooster.separate();
 		rightBooster.separate();
 	}

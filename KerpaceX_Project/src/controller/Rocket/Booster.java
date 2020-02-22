@@ -21,15 +21,12 @@ public class Booster extends FirstStage
 	{
 		try
 		{
-			PropulsionSystem.setAllEngineThrottle(0.65f);
-			vessel = decoupler.decouple();
+			vessel = controlUnit.getVessel();
 			Thread.sleep(0);
 			vessel.getControl().setThrottle(1);
 			ReactionControlSystem.setVessel(vessel);
 			ReactionControlSystem.enable();
-			ReactionControlSystem.setEngine(0,1);
-			Thread.sleep(10000);
-			ReactionControlSystem.stopAllEngines();
+			Thread.sleep(5000);
 			PropulsionSystem.setAllEngineThrottle(0);
 			vessel.getParts().setControlling(controlUnit);
 			ReturnPhase = new ReturnPhase(Booster.this, controller.ReturnPhase.KSCLongitude, controller.ReturnPhase.KSCLatitude);
